@@ -5,7 +5,11 @@ import com.daniel.tde_backend.models.Usuario;
 import com.daniel.tde_backend.repositories.UsuarioRepository;
 import com.daniel.tde_backend.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -20,12 +24,30 @@ public class UsuarioService {
         return new UsuarioDTO(usuario);
     }
 
+    @Transactional(readOnly = true)
+    public Page<UsuarioDTO> findByAll(Pageable pageable) {
+        Page<Usuario> result = repository.findAll(pageable);
+        return result.map(x -> new UsuarioDTO(x));
+    }
+
     @Transactional
     public UsuarioDTO insert(UsuarioDTO dto) {
         Usuario entity = new Usuario();
         copyDtoToEntity(dto, entity);
         entity = repository.save(entity);
         return new UsuarioDTO(entity);
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete(String id) {
+        if(!repository.existsById(id)) {
+            throw new ResourceNotFoundException("Usuário não encontrado");
+        }
+        try {
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException("Falha de integridade referencial");
+        }
     }
 
     private void copyDtoToEntity(UsuarioDTO dto, Usuario entity) {
