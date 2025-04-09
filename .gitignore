@@ -31,6 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
-### Configuração do MongoDB (Email e senha)
+### Removendo o commit da configuração do MongoDB (Email e senha) ###
 src/main/resources/application.properties
 
