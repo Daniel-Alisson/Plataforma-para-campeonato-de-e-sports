@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+### Configuração do MongoDB (Email e senha)
+src/main/resources/application.properties
+
