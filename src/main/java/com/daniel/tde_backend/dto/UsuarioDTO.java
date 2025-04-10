@@ -1,7 +1,7 @@
 package com.daniel.tde_backend.dto;
 
 import com.daniel.tde_backend.models.Usuario;
-import com.daniel.tde_backend.models.UsuarioStatus;
+import com.daniel.tde_backend.models.enums.UsuarioStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 

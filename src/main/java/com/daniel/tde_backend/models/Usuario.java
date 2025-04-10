@@ -1,5 +1,6 @@
 package com.daniel.tde_backend.models;
 
+import com.daniel.tde_backend.models.enums.UsuarioStatus;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
