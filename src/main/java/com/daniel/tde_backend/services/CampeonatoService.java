@@ -1,11 +1,8 @@
 package com.daniel.tde_backend.services;
 
 import com.daniel.tde_backend.dto.CampeonatoDTO;
-import com.daniel.tde_backend.dto.UsuarioDTO;
 import com.daniel.tde_backend.exceptions.ResourceNotFoundException;
 import com.daniel.tde_backend.models.Campeonato;
-import com.daniel.tde_backend.models.Usuario;
-import com.daniel.tde_backend.models.enums.CampeonatoTipo;
 import com.daniel.tde_backend.repositories.CampeonatoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,8 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 @Service
 public class CampeonatoService {
@@ -38,7 +33,7 @@ public class CampeonatoService {
     }
 
     @Transactional(readOnly = true)
-    public Page<CampeonatoDTO> findByAll(Pageable pageable) {
+    public Page<CampeonatoDTO> findAll(Pageable pageable) {
         Page<Campeonato> result = repository.findAll(pageable);
         return result.map(x -> new CampeonatoDTO(x));
     }
@@ -66,8 +61,8 @@ public class CampeonatoService {
         entity.setNomeCampeonato(dto.getNomeCampeonato());
         entity.setNomeJogo(dto.getNomeJogo());
         entity.setTipo(dto.getTipo());
-        entity.setNumeroMaximo(dto.getNumeroMaximo());
-        entity.setValor(dto.getValor());
+        entity.setNumeroMaximoParticipantes(dto.getNumeroMaximoParticipantes());
+        entity.setValorInscricao(dto.getValorInscricao());
         entity.setFormato(dto.getFormato());
         entity.setRegras(dto.getRegras());
         entity.setDataInicio(dto.getDataInicio());
@@ -75,6 +70,6 @@ public class CampeonatoService {
         entity.setLocalizacao(dto.getLocalizacao());
         entity.setCapa(dto.getCapa());
         entity.setLogo(dto.getLogo());
-        entity.setDescricao(dto.getDescricao());
+        entity.setPremiacao(dto.getPremiacao());
     }
 }

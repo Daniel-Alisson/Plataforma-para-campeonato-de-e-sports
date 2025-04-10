@@ -1,7 +1,6 @@
 package com.daniel.tde_backend.controllers;
 
 import com.daniel.tde_backend.dto.CampeonatoDTO;
-import com.daniel.tde_backend.dto.UsuarioDTO;
 import com.daniel.tde_backend.services.CampeonatoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,32 +20,33 @@ public class CampeonatoController {
     private CampeonatoService service;
 
     @PostMapping
-    public ResponseEntity<CampeonatoDTO> insert(@Valid @RequestBody CampeonatoDTO dto) {
+    public ResponseEntity<CampeonatoDTO> criarCampeonato(@Valid @RequestBody CampeonatoDTO dto) {
         dto = service.insert(dto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/id").buildAndExpand(dto.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{/id}").buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }
 
+    // OS ENDPOINTS ABAIXO SERÃO UTILIZADOS PARA OUTRAS FUNCIONALIDADES
     @GetMapping(value = "/{id}")
-    public ResponseEntity<CampeonatoDTO> findById(@PathVariable String id) {
+    public ResponseEntity<CampeonatoDTO> buscarCampeonatoById(@PathVariable String id) {
         CampeonatoDTO dto = service.findById(id);
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping
-    public ResponseEntity<Page<CampeonatoDTO>> findAll(Pageable pageable) {
-        Page<CampeonatoDTO> dto = service.findByAll(pageable);
+    public ResponseEntity<Page<CampeonatoDTO>> listarCampeonatos(Pageable pageable) {
+        Page<CampeonatoDTO> dto = service.findAll(pageable);
         return ResponseEntity.ok(dto);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<CampeonatoDTO> update(@PathVariable String id, @Valid @RequestBody CampeonatoDTO dto) {
+    public ResponseEntity<CampeonatoDTO> atualizarCampeonato(@PathVariable String id, @Valid @RequestBody CampeonatoDTO dto) {
         dto = service.update(id, dto);
         return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
+    public ResponseEntity<Void> deletarCampeonato(@PathVariable String id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

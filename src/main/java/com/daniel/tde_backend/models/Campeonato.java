@@ -14,8 +14,8 @@ public class Campeonato {
     private String nomeCampeonato;
     private String nomeJogo;
     private CampeonatoTipo tipo;
-    private Integer numeroMaximo;
-    private Double valor;
+    private Integer numeroMaximoParticipantes;
+    private Double valorInscricao;
     private String formato;
     private String regras;
     private LocalDateTime dataInicio;
@@ -23,18 +23,18 @@ public class Campeonato {
     private String localizacao;
     private String capa;
     private String logo;
-    private String descricao;
+    private String premiacao;
 
     public Campeonato() {
     }
 
-    public Campeonato(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximo, Double valor, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String descricao) {
+    public Campeonato(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximoParticipantes, Double valorInscricao, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String premiacao) {
         this.id = id;
         this.nomeCampeonato = nomeCampeonato;
         this.nomeJogo = nomeJogo;
         this.tipo = tipo;
-        this.numeroMaximo = numeroMaximo;
-        this.valor = valor;
+        this.numeroMaximoParticipantes = numeroMaximoParticipantes;
+        this.valorInscricao = valorInscricao;
         this.formato = formato;
         this.regras = regras;
         this.dataInicio = dataInicio;
@@ -42,7 +42,7 @@ public class Campeonato {
         this.localizacao = localizacao;
         this.capa = capa;
         this.logo = logo;
-        this.descricao = descricao;
+        this.premiacao = premiacao;
     }
 
     public String getCapa() {
@@ -69,12 +69,12 @@ public class Campeonato {
         this.dataTermino = dataTermino;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getPremiacao() {
+        return premiacao;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setPremiacao(String premiacao) {
+        this.premiacao = premiacao;
     }
 
     public String getFormato() {
@@ -125,12 +125,12 @@ public class Campeonato {
         this.nomeJogo = nomeJogo;
     }
 
-    public Integer getNumeroMaximo() {
-        return numeroMaximo;
+    public Integer getNumeroMaximoParticipantes() {
+        return numeroMaximoParticipantes;
     }
 
-    public void setNumeroMaximo(Integer numeroMaximo) {
-        this.numeroMaximo = numeroMaximo;
+    public void setNumeroMaximoParticipantes(Integer numeroMaximoParticipantes) {
+        this.numeroMaximoParticipantes = numeroMaximoParticipantes;
     }
 
     public String getRegras() {
@@ -149,11 +149,11 @@ public class Campeonato {
         this.tipo = tipo;
     }
 
-    public Double getValor() {
-        return valor;
+    public Double getValorInscricao() {
+        return valorInscricao;
     }
 
-    public void setValor(Double valor) {
-        this.valor = valor;
+    public void setValorInscricao(Double valorInscricao) {
+        this.valorInscricao = valorInscricao;
     }
 }
