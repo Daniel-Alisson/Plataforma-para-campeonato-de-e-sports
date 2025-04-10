@@ -25,7 +25,7 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = true)
-    public Page<UsuarioDTO> findByAll(Pageable pageable) {
+    public Page<UsuarioDTO> findAll(Pageable pageable) {
         Page<Usuario> result = repository.findAll(pageable);
         return result.map(x -> new UsuarioDTO(x));
     }
@@ -65,6 +65,6 @@ public class UsuarioService {
         entity.setSenha(dto.getSenha());
         entity.setDataNascimento(dto.getDataNascimento());
         entity.setImgUrl(dto.getImgUrl());
-        entity.setStatus(dto.getStatus());
+        entity.setTipo(dto.getTipo());
     }
 }

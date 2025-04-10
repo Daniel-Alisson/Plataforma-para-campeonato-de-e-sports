@@ -1,6 +1,6 @@
 package com.daniel.tde_backend.models;
 
-import com.daniel.tde_backend.models.enums.UsuarioStatus;
+import com.daniel.tde_backend.models.enums.UsuarioTipo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,12 +18,12 @@ public class Usuario {
     private String senha;
     private LocalDate dataNascimento;
     private String imgUrl;
-    private UsuarioStatus status;
+    private UsuarioTipo tipo;
 
     public Usuario() {
     }
 
-    public Usuario(String id, String nome, String nickName, String email, String senha, LocalDate dataNascimento, String imgUrl, UsuarioStatus status) {
+    public Usuario(String id, String nome, String nickName, String email, String senha, LocalDate dataNascimento, String imgUrl, UsuarioTipo tipo) {
         this.id = id;
         this.nome = nome;
         this.nickName = nickName;
@@ -31,7 +31,7 @@ public class Usuario {
         this.senha = senha;
         this.dataNascimento = dataNascimento;
         this.imgUrl = imgUrl;
-        this.status = status;
+        this.tipo = tipo;
     }
 
     public LocalDate getDataNascimento() {
@@ -90,11 +90,11 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public UsuarioStatus getStatus() {
-        return status;
+    public UsuarioTipo getTipo() {
+        return tipo;
     }
 
-    public void setStatus(UsuarioStatus status) {
-        this.status = status;
+    public void setTipo(UsuarioTipo tipo) {
+        this.tipo = tipo;
     }
 }

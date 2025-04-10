@@ -1,6 +1,6 @@
 package com.daniel.tde_backend.models.enums;
 
-public enum UsuarioStatus {
+public enum UsuarioTipo {
     // 0 - 1
     JOGADOR, PROMOTOR;
 }

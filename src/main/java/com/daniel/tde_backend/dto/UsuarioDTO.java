@@ -1,7 +1,7 @@
 package com.daniel.tde_backend.dto;
 
 import com.daniel.tde_backend.models.Usuario;
-import com.daniel.tde_backend.models.enums.UsuarioStatus;
+import com.daniel.tde_backend.models.enums.UsuarioTipo;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
@@ -25,12 +25,12 @@ public class UsuarioDTO {
     private LocalDate dataNascimento;
     private String imgUrl;
     @NotNull(message = "Campo requerido")
-    private UsuarioStatus status;
+    private UsuarioTipo tipo;
 
     public UsuarioDTO() {
     }
 
-    public UsuarioDTO(String id, String nome, String nickName, String email, String senha, LocalDate dataNascimento, String imgUrl, UsuarioStatus status) {
+    public UsuarioDTO(String id, String nome, String nickName, String email, String senha, LocalDate dataNascimento, String imgUrl, UsuarioTipo tipo) {
         this.id = id;
         this.nome = nome;
         this.nickName = nickName;
@@ -38,7 +38,7 @@ public class UsuarioDTO {
         this.senha = senha;
         this.dataNascimento = dataNascimento;
         this.imgUrl = imgUrl;
-        this.status = status;
+        this.tipo = tipo;
     }
 
     public UsuarioDTO(Usuario entitiy) {
@@ -49,7 +49,7 @@ public class UsuarioDTO {
         this.senha = entitiy.getSenha();
         this.dataNascimento = entitiy.getDataNascimento();
         this.imgUrl = entitiy.getImgUrl();
-        this.status = entitiy.getStatus();
+        this.tipo = entitiy.getTipo();
     }
 
     public LocalDate getDataNascimento() {
@@ -80,7 +80,7 @@ public class UsuarioDTO {
         return senha;
     }
 
-    public UsuarioStatus getStatus() {
-        return status;
+    public UsuarioTipo getTipo() {
+        return tipo;
     }
 }
