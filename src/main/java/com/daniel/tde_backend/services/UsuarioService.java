@@ -38,6 +38,14 @@ public class UsuarioService {
         return new UsuarioDTO(entity);
     }
 
+    @Transactional
+    public UsuarioDTO update(String id, UsuarioDTO dto) {
+        Usuario entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+        copyDtoToEntity(dto, entity);
+        entity = repository.save(entity);
+        return new UsuarioDTO(entity);
+    }
+
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(String id) {
         if(!repository.existsById(id)) {
