@@ -1,14 +1,14 @@
 package com.daniel.tde_backend.controllers;
 
 import com.daniel.tde_backend.dto.CampeonatoDTO;
+import com.daniel.tde_backend.dto.UsuarioDTO;
 import com.daniel.tde_backend.services.CampeonatoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -25,5 +25,29 @@ public class CampeonatoController {
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/id").buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<CampeonatoDTO> findById(@PathVariable String id) {
+        CampeonatoDTO dto = service.findById(id);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<CampeonatoDTO>> findAll(Pageable pageable) {
+        Page<CampeonatoDTO> dto = service.findByAll(pageable);
+        return ResponseEntity.ok(dto);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<CampeonatoDTO> update(@PathVariable String id, @Valid @RequestBody CampeonatoDTO dto) {
+        dto = service.update(id, dto);
+        return ResponseEntity.ok(dto);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
