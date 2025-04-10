@@ -5,6 +5,7 @@ import com.daniel.tde_backend.services.CampeonatoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ public class CampeonatoController {
     @Autowired
     private CampeonatoService service;
 
+    @PostMapping
     public ResponseEntity<CampeonatoDTO> insert(@Valid @RequestBody CampeonatoDTO dto) {
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/id").buildAndExpand(dto.getId()).toUri();
