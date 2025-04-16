@@ -43,11 +43,7 @@ public class UsuarioService {
     @Transactional
     public UsuarioDTO update(String id, UsuarioDTO dto) {
         Usuario entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
-        entity.setNome(dto.getNome());
-        entity.setNickName(dto.getNickName());
-        entity.setDataNascimento(dto.getDataNascimento());
-        entity.setImgUrl(dto.getImgUrl());
-        entity.setTipo(dto.getTipo());
+        copyDtoToEntity(dto, entity);
         entity = repository.save(entity);
         return new UsuarioDTO(entity);
     }

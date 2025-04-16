@@ -41,12 +41,22 @@ mvn spring-boot:run
 ## 🌐 Endpoints
 
 ### Usuários
-- GET ```/usuarios/id``` - Busca usuário por ID
+- ```GET /usuarios/id``` - Busca usuário por ID
+- ```GET /usuarios``` - Busca paginada de usuários
+- ```POST /usuarios``` - Cadastra novo usuário
+- ```PUT /usuarios/id``` - Atualizar informações do perfil
+- ```DELETE /usuarios/id``` - Deletar usuário
 
-- POST ```/usuarios``` - Cadastra novo usuário
-
+##### EXEMPLO DE CADASTRO:
 ```
-# Teste
+{
+  "email": "daniel@email.com",
+  "senha": "SenhaSegura123"
+}
+```
+Depois do cadastro, o usuário poderá atualizar o restante do perfil.
+##### EXEMPLO DE ATUALIZAÇÃO DO PERFIL:
+```
 {
   "nome": "Daniel-san",
   "nickName": "CondeManga",
@@ -58,18 +68,12 @@ mvn spring-boot:run
 }
 ```
 
-## 🛑 Tratamento de Erros
-
-Respostas padronizadas para erros:
-
-```
-{
-  "timestamp": "2023-10-30T12:00:00",
-  "status": 404,
-  "error": "Not Found",
-  "message": "Usuário não encontrado"
-}
-```
+### Campeonatos
+- ```POST /campeonatos``` - Criar novo campeonato
+- ```GET /campeonatos``` - Busca paginada de campeonatos
+- ```GET /campeonatos/id``` - Buscar campeonato por Id
+- ```PUT /campeonatos/id``` - Atualizar informações do campeonato
+- ```DELETE /campeonatos/id``` - Deletar campeonato
 
 ## 🏗️ Estrutura
 

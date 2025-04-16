@@ -26,7 +26,6 @@ public class CampeonatoController {
         return ResponseEntity.created(uri).body(dto);
     }
 
-    // OS ENDPOINTS ABAIXO SERÃO UTILIZADOS PARA OUTRAS FUNCIONALIDADES
     @GetMapping(value = "/{id}")
     public ResponseEntity<CampeonatoDTO> buscarCampeonatoById(@PathVariable String id) {
         CampeonatoDTO dto = service.findById(id);

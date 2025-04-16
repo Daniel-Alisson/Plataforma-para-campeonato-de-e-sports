@@ -57,6 +57,7 @@ public class CampeonatoService {
             throw new DataIntegrityViolationException("Falha de integridade referencial");
         }
     }
+
     private void copyDtoToEntity(CampeonatoDTO dto, Campeonato entity) {
         entity.setNomeCampeonato(dto.getNomeCampeonato());
         entity.setNomeJogo(dto.getNomeJogo());
