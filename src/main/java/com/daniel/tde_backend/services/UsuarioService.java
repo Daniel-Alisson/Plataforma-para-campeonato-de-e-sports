@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +20,14 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository repository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional
     public UsuarioDTO cadastrarUsuario(UsuarioCadastroDTO dto) {
         Usuario entity = new Usuario();
         entity.setEmail(dto.getEmail());
-        entity.setSenha(dto.getSenha());
+        entity.setSenha(passwordEncoder.encode(dto.getSenha()));
         entity = repository.save(entity);
         return new UsuarioDTO(entity);
     }
