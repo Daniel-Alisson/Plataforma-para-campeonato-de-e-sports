@@ -3,11 +3,16 @@ package com.daniel.tde_backend.models;
 import com.daniel.tde_backend.models.enums.UsuarioTipo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 
 @Document(collection = "usuarios")
-public class Usuario {
+public class Usuario implements UserDetails {
 
     // EU USAVA LONG, MAS PARECE Q NO MONGODB ELE USA _ID EM VEZ DE ID, ENTÃO COLOQUEI STRING
     @Id
@@ -96,5 +101,41 @@ public class Usuario {
 
     public void setTipo(UsuarioTipo tipo) {
         this.tipo = tipo;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.tipo == UsuarioTipo.PROMOTOR) return List.of(new SimpleGrantedAuthority("TIPO_PROMOTOR"), new SimpleGrantedAuthority("TIPO_JOGADOR"));
+        else return List.of(new SimpleGrantedAuthority("TIPO_JOGADOR"));
+    }
+
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
