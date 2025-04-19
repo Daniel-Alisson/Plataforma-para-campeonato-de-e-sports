@@ -12,24 +12,20 @@ public class InscricaoDTO {
     @NotBlank(message = "Campo requerido")
     private String usuarioId;
     private String time;
-    @NotBlank(message = "Campo requerido")
-    private LocalDateTime dataInscricao;
 
     public InscricaoDTO() {
     }
 
-    public InscricaoDTO(String campeonatoId, String usuarioId, String time, LocalDateTime dataInscricao) {
+    public InscricaoDTO(String campeonatoId, String usuarioId, String time) {
         this.campeonatoId = campeonatoId;
         this.usuarioId = usuarioId;
         this.time = time;
-        this.dataInscricao = dataInscricao;
     }
 
     public InscricaoDTO(Inscricao entity) {
         this.campeonatoId = entity.getCampeonatoId();
         this.usuarioId = entity.getUsuarioId();
         this.time = entity.getTime();
-        this.dataInscricao = entity.getDataInscricao();
     }
 
     public String getCampeonatoId() {
@@ -38,14 +34,6 @@ public class InscricaoDTO {
 
     public void setCampeonatoId(String campeonatoId) {
         this.campeonatoId = campeonatoId;
-    }
-
-    public LocalDateTime getDataInscricao() {
-        return dataInscricao;
-    }
-
-    public void setDataInscricao(LocalDateTime dataInscricao) {
-        this.dataInscricao = dataInscricao;
     }
 
     public String getTime() {

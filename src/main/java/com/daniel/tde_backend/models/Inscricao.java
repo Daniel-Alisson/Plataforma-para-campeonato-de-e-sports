@@ -16,14 +16,15 @@ public class Inscricao {
     private LocalDateTime dataInscricao;
 
     public Inscricao() {
+        this.dataInscricao = LocalDateTime.now();
     }
 
-    public Inscricao(String id, String campeonatoId, String usuarioId, String time, LocalDateTime dataInscricao) {
+    public Inscricao(String id, String campeonatoId, String usuarioId, String time) {
         this.id = id;
         this.campeonatoId = campeonatoId;
         this.usuarioId = usuarioId;
         this.time = time;
-        this.dataInscricao = dataInscricao;
+        this.dataInscricao = LocalDateTime.now();
     }
 
     public String getCampeonatoId() {
