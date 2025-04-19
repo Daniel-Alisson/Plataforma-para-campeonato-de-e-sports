@@ -34,7 +34,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuarios/cadastrar").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/usuarios/").hasRole("PROMOTOR")
+                        .requestMatchers(HttpMethod.POST, "/usuarios").hasAuthority("ROLE_PROMOTOR")
+                        .requestMatchers(HttpMethod.POST, "/campeonatos").hasAuthority("ROLE_PROMOTOR")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
