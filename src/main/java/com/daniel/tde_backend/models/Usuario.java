@@ -105,8 +105,14 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.tipo == UsuarioTipo.PROMOTOR) return List.of(new SimpleGrantedAuthority("TIPO_PROMOTOR"), new SimpleGrantedAuthority("TIPO_JOGADOR"));
-        else return List.of(new SimpleGrantedAuthority("TIPO_JOGADOR"));
+        if (this.tipo == UsuarioTipo.PROMOTOR) {
+            return List.of(
+                    new SimpleGrantedAuthority("ROLE_PROMOTOR"),
+                    new SimpleGrantedAuthority("ROLE_JOGADOR"));
+        }
+        else {
+            return List.of(new SimpleGrantedAuthority("ROLE_JOGADOR"));
+        }
     }
 
     @Override
