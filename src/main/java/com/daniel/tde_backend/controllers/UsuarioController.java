@@ -20,7 +20,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService service;
 
-    @PostMapping("/cadastro")
+    @PostMapping("/cadastrar")
     public ResponseEntity<UsuarioDTO> cadastrarUsuario(@Valid @RequestBody UsuarioCadastroDTO dto) {
         UsuarioDTO usuarioNovo = service.cadastrarUsuario(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuarioNovo.getId()).toUri();

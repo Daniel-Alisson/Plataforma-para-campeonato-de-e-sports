@@ -1,4 +1,4 @@
-package com.daniel.tde_backend.services;
+package com.daniel.tde_backend.config.auth;
 
 import com.daniel.tde_backend.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
