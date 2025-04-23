@@ -2,9 +2,7 @@ package com.daniel.tde_backend.services;
 
 import com.daniel.tde_backend.dto.InscricaoDTO;
 import com.daniel.tde_backend.models.Inscricao;
-import com.daniel.tde_backend.repositories.CampeonatoRepository;
 import com.daniel.tde_backend.repositories.InscricaoRepository;
-import com.daniel.tde_backend.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

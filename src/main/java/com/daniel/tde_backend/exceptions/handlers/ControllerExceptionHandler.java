@@ -1,9 +1,6 @@
 package com.daniel.tde_backend.exceptions.handlers;
 
-import com.daniel.tde_backend.exceptions.CustomError;
-import com.daniel.tde_backend.exceptions.DatabaseException;
-import com.daniel.tde_backend.exceptions.ResourceNotFoundException;
-import com.daniel.tde_backend.exceptions.ValidationError;
+import com.daniel.tde_backend.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +35,13 @@ public class ControllerExceptionHandler {
         for (FieldError f : e.getBindingResult().getFieldErrors()) {
             err.addError(f.getField(), f.getDefaultMessage());
         }
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(InvalidEmailException.class)
+    public ResponseEntity<CustomError> emailInvalido(InvalidEmailException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomError err = new CustomError(e.getMessage(), Instant.now(), request.getRequestURI(), status.value());
         return ResponseEntity.status(status).body(err);
     }
 }

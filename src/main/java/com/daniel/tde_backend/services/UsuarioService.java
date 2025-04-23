@@ -2,6 +2,7 @@ package com.daniel.tde_backend.services;
 
 import com.daniel.tde_backend.dto.UsuarioCadastroDTO;
 import com.daniel.tde_backend.dto.UsuarioDTO;
+import com.daniel.tde_backend.exceptions.InvalidEmailException;
 import com.daniel.tde_backend.models.Usuario;
 import com.daniel.tde_backend.repositories.UsuarioRepository;
 import com.daniel.tde_backend.exceptions.ResourceNotFoundException;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,6 +25,9 @@ public class UsuarioService {
 
     @Transactional
     public UsuarioDTO cadastrarUsuario(UsuarioCadastroDTO dto) {
+        if (repository.findByEmail(dto.getEmail()).isPresent()) {
+            throw new InvalidEmailException("E-mail já cadastro");
+        }
         Usuario entity = new Usuario();
         entity.setEmail(dto.getEmail());
         entity.setSenha(passwordEncoder.encode(dto.getSenha()));
