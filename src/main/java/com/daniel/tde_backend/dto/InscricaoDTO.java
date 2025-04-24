@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 public class InscricaoDTO {
 
+    private String id;
     @NotBlank(message = "Campo requerido")
     private String campeonatoId;
     @NotBlank(message = "Campo requerido")
@@ -16,16 +17,26 @@ public class InscricaoDTO {
     public InscricaoDTO() {
     }
 
-    public InscricaoDTO(String campeonatoId, String usuarioId, String time) {
+    public InscricaoDTO(String id, String campeonatoId, String usuarioId, String time) {
+        this.id = id;
         this.campeonatoId = campeonatoId;
         this.usuarioId = usuarioId;
         this.time = time;
     }
 
     public InscricaoDTO(Inscricao entity) {
+        this.id = entity.getId();
         this.campeonatoId = entity.getCampeonatoId();
         this.usuarioId = entity.getUsuarioId();
         this.time = entity.getTime();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getCampeonatoId() {

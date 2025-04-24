@@ -2,8 +2,10 @@ package com.daniel.tde_backend.services;
 
 import com.daniel.tde_backend.dto.UsuarioCadastroDTO;
 import com.daniel.tde_backend.dto.UsuarioDTO;
+import com.daniel.tde_backend.exceptions.InvalidDataException;
 import com.daniel.tde_backend.exceptions.InvalidEmailException;
 import com.daniel.tde_backend.models.Usuario;
+import com.daniel.tde_backend.models.enums.UsuarioTipo;
 import com.daniel.tde_backend.repositories.UsuarioRepository;
 import com.daniel.tde_backend.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
 
 @Service
 public class UsuarioService {
@@ -31,6 +35,7 @@ public class UsuarioService {
         Usuario entity = new Usuario();
         entity.setEmail(dto.getEmail());
         entity.setSenha(passwordEncoder.encode(dto.getSenha()));
+        entity.setTipo(UsuarioTipo.JOGADOR);
         entity = repository.save(entity);
         return new UsuarioDTO(entity);
     }
@@ -47,8 +52,12 @@ public class UsuarioService {
         return result.map(x -> new UsuarioDTO(x));
     }
 
+    // Testar idade
     @Transactional
     public UsuarioDTO update(String id, UsuarioDTO dto) {
+        if (dto.getDataNascimento().isAfter(LocalDate.now().minusYears(13))) {
+            throw new InvalidDataException("Usuário deve ter pelo menos 13 anos");
+        }
         Usuario entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
         copyDtoToEntity(dto, entity);
         entity = repository.save(entity);

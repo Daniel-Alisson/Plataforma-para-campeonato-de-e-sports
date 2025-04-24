@@ -2,7 +2,7 @@ package com.daniel.tde_backend.models.enums;
 
 public enum UsuarioTipo {
     // 0 - 1
-    JOGADOR("user"), PROMOTOR("admin");
+    JOGADOR("jogador"), PROMOTOR("promotor"), ADMIN("admin");
 
     private String role;
 

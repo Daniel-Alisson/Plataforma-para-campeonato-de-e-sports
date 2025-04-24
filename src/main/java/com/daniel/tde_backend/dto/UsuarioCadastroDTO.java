@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 public class UsuarioCadastroDTO {
 
     @NotBlank(message = "Campo requerido")
-    @Email(message = "Email inválido")
+    @Email(message = "E-mail inválido")
     private String email;
     @NotBlank(message = "Campo requerido")
     @Size(min = 8, message = "Senha deve ter no mínimo 8 caracteres")

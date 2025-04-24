@@ -20,7 +20,6 @@ public class UsuarioDTO {
     @Past(message = "Data precisa ser válida")
     private LocalDate dataNascimento;
     private String imgUrl;
-    @NotNull(message = "Campo requerido")
     private UsuarioTipo tipo;
 
     public UsuarioDTO() {
