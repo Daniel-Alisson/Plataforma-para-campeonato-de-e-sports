@@ -1,5 +1,7 @@
 package com.daniel.tde_backend.models;
 
+import com.daniel.tde_backend.models.enums.InscricaoStatus;
+import com.daniel.tde_backend.models.enums.TipoParticipante;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,29 +12,25 @@ public class Inscricao {
 
     @Id
     private String id;
-    private String campeonatoId;
-    private String usuarioId;
-    private String time;
+    private String idCampeonato;
+    private String idJogador;
+    private String idEquipe;
+    private TipoParticipante tipo;
+    private InscricaoStatus status;
     private LocalDateTime dataInscricao;
 
     public Inscricao() {
         this.dataInscricao = LocalDateTime.now();
     }
 
-    public Inscricao(String id, String campeonatoId, String usuarioId, String time) {
+    public Inscricao(String id, String idCampeonato, String idJogador, String idEquipe, TipoParticipante tipo, InscricaoStatus status) {
         this.id = id;
-        this.campeonatoId = campeonatoId;
-        this.usuarioId = usuarioId;
-        this.time = time;
+        this.idCampeonato = idCampeonato;
+        this.idJogador = idJogador;
+        this.idEquipe = idEquipe;
+        this.tipo = tipo;
+        this.status = status;
         this.dataInscricao = LocalDateTime.now();
-    }
-
-    public String getCampeonatoId() {
-        return campeonatoId;
-    }
-
-    public void setCampeonatoId(String campeonatoId) {
-        this.campeonatoId = campeonatoId;
     }
 
     public LocalDateTime getDataInscricao() {
@@ -51,19 +49,43 @@ public class Inscricao {
         this.id = id;
     }
 
-    public String getTime() {
-        return time;
+    public String getIdCampeonato() {
+        return idCampeonato;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setIdCampeonato(String idCampeonato) {
+        this.idCampeonato = idCampeonato;
     }
 
-    public String getUsuarioId() {
-        return usuarioId;
+    public String getIdEquipe() {
+        return idEquipe;
     }
 
-    public void setUsuarioId(String usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setIdEquipe(String idEquipe) {
+        this.idEquipe = idEquipe;
+    }
+
+    public String getIdJogador() {
+        return idJogador;
+    }
+
+    public void setIdJogador(String idJogador) {
+        this.idJogador = idJogador;
+    }
+
+    public InscricaoStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(InscricaoStatus status) {
+        this.status = status;
+    }
+
+    public TipoParticipante getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoParticipante tipo) {
+        this.tipo = tipo;
     }
 }

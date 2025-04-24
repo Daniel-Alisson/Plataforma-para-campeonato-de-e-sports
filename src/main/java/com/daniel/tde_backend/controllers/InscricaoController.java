@@ -2,14 +2,14 @@ package com.daniel.tde_backend.controllers;
 
 import com.daniel.tde_backend.dto.CampeonatoDTO;
 import com.daniel.tde_backend.dto.InscricaoDTO;
+import com.daniel.tde_backend.dto.UsuarioDTO;
 import com.daniel.tde_backend.services.InscricaoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/inscricao")
+@RequestMapping(value = "/inscricoes")
 public class InscricaoController {
 
     @Autowired
