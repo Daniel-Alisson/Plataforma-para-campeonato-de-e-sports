@@ -1,10 +1,14 @@
 package com.daniel.tde_backend.dto;
 
 import com.daniel.tde_backend.models.Campeonato;
+import com.daniel.tde_backend.models.Inscricao;
+import com.daniel.tde_backend.models.enums.CampeonatoStatus;
 import com.daniel.tde_backend.models.enums.CampeonatoTipo;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CampeonatoDTO {
 
@@ -42,11 +46,15 @@ public class CampeonatoDTO {
     private String logo;
     @Size(max = 500, message = "A descrição deve ter até 500 caracteres")
     private String premiacao;
+    private CampeonatoStatus status;
+    @NotBlank(message = "Campo requerido")
+    private String modalidade;
+    private LocalDateTime dataCriacao;
 
     public CampeonatoDTO() {
     }
 
-    public CampeonatoDTO(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximoParticipantes, Double valorInscricao, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String premiacao) {
+    public CampeonatoDTO(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximoParticipantes, Double valorInscricao, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String premiacao, CampeonatoStatus status, String modalidade, LocalDateTime dataCriacao) {
         this.id = id;
         this.nomeCampeonato = nomeCampeonato;
         this.nomeJogo = nomeJogo;
@@ -61,6 +69,9 @@ public class CampeonatoDTO {
         this.capa = capa;
         this.logo = logo;
         this.premiacao = premiacao;
+        this.status = status;
+        this.modalidade = modalidade;
+        this.dataCriacao = dataCriacao;
     }
 
     public CampeonatoDTO(Campeonato entity) {
@@ -78,6 +89,21 @@ public class CampeonatoDTO {
         this.capa = entity.getCapa();
         this.logo = entity.getLogo();
         this.premiacao = entity.getPremiacao();
+        this.status = entity.getStatus();
+        this.modalidade = entity.getModalidade();
+        this.dataCriacao = entity.getDataCriacao();
+    }
+
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public String getModalidade() {
+        return modalidade;
+    }
+
+    public CampeonatoStatus getStatus() {
+        return status;
     }
 
     public String getCapa() {

@@ -1,10 +1,12 @@
 package com.daniel.tde_backend.models;
 
+import com.daniel.tde_backend.models.enums.CampeonatoStatus;
 import com.daniel.tde_backend.models.enums.CampeonatoTipo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Document(collection = "campeonatos")
 public class Campeonato {
@@ -24,11 +26,14 @@ public class Campeonato {
     private String capa;
     private String logo;
     private String premiacao;
+    private CampeonatoStatus status;
+    private String modalidade;
+    private LocalDateTime dataCriacao;
 
     public Campeonato() {
     }
 
-    public Campeonato(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximoParticipantes, Double valorInscricao, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String premiacao) {
+    public Campeonato(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximoParticipantes, Double valorInscricao, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String premiacao, CampeonatoStatus status, String modalidade, LocalDateTime dataCriacao) {
         this.id = id;
         this.nomeCampeonato = nomeCampeonato;
         this.nomeJogo = nomeJogo;
@@ -43,6 +48,41 @@ public class Campeonato {
         this.capa = capa;
         this.logo = logo;
         this.premiacao = premiacao;
+        this.status = status;
+        this.modalidade = modalidade;
+        this.dataCriacao = dataCriacao;
+    }
+
+    public void setValorInscricao(Double valorInscricao) {
+        this.valorInscricao = valorInscricao;
+    }
+
+    public Double getValorInscricao() {
+        return valorInscricao;
+    }
+
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public String getModalidade() {
+        return modalidade;
+    }
+
+    public void setModalidade(String modalidade) {
+        this.modalidade = modalidade;
+    }
+
+    public CampeonatoStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CampeonatoStatus status) {
+        this.status = status;
     }
 
     public String getCapa() {
@@ -147,13 +187,5 @@ public class Campeonato {
 
     public void setTipo(CampeonatoTipo tipo) {
         this.tipo = tipo;
-    }
-
-    public Double getValorInscricao() {
-        return valorInscricao;
-    }
-
-    public void setValorInscricao(Double valorInscricao) {
-        this.valorInscricao = valorInscricao;
     }
 }

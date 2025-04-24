@@ -3,6 +3,8 @@ package com.daniel.tde_backend.services;
 import com.daniel.tde_backend.dto.CampeonatoDTO;
 import com.daniel.tde_backend.exceptions.ResourceNotFoundException;
 import com.daniel.tde_backend.models.Campeonato;
+import com.daniel.tde_backend.models.Inscricao;
+import com.daniel.tde_backend.models.enums.CampeonatoStatus;
 import com.daniel.tde_backend.repositories.CampeonatoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -11,6 +13,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CampeonatoService {
@@ -22,6 +28,8 @@ public class CampeonatoService {
     public CampeonatoDTO insert(CampeonatoDTO dto) {
         Campeonato entity = new Campeonato();
         copyDtoToEntity(dto, entity);
+        entity.setStatus(CampeonatoStatus.ABERTO);
+        entity.setDataCriacao(LocalDateTime.now());
         entity = repository.save(entity);
         return new CampeonatoDTO(entity);
     }
@@ -72,5 +80,8 @@ public class CampeonatoService {
         entity.setCapa(dto.getCapa());
         entity.setLogo(dto.getLogo());
         entity.setPremiacao(dto.getPremiacao());
+        entity.setStatus(dto.getStatus());
+        entity.setModalidade(dto.getModalidade());
+        entity.setDataCriacao(dto.getDataCriacao());
     }
 }
