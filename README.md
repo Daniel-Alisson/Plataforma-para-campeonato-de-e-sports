@@ -74,7 +74,53 @@ Depois do cadastro, o usuário poderá atualizar o restante do perfil.
 - ```GET /campeonatos/id``` - Buscar campeonato por Id
 - ```PUT /campeonatos/id``` - Atualizar informações do campeonato
 - ```DELETE /campeonatos/id``` - Deletar campeonato
+- 
+##### EXEMPLO DE CADASTRO DE CAMPEONATO
+```
+{
+"nomeCampeonato": "Torneio de Teste Promotor",
+"nomeJogo": "MANGA",
+"tipo": "INDIVIDUAL",
+"numeroMaximoParticipantes": 30,
+"numeroInscritos": 0,
+"valorInscricao": 100.00,
+"dataInicio": "2026-04-20T19:00:00",
+"dataTermino": "2026-08-22T22:00:00",
+"formato": "ELIMINACAO_SIMPLES",
+"localizacao": "https://twitch.tv/mangaesports",
+"regras": "MD1 até as quartas e MD3 na semi e final",
+"descricao": "1º lugar: R$ 1000 | 2º lugar: R$ 500",
+"capa": "https://storage.com/capas/manga-torneio.jpg",
+"logo": "https://storage.com/logos/manga-logo.png",
+"premiacao": "MANGA DE PRESENTE",
+"modalidade": "Remoto"
+}
+```
+### Inscricao
+- ```POST /inscricao/id``` - Inscrever em um campeonato por Id
+- ```GET /inscricao``` - Busca paginada de inscrições (GERAL)
+- ```GET /inscricao/id``` - Buscar inscrições por Id
+- ```PUT /inscricao/id``` - Atualizar informações da inscrição do usuário
+- ```DELETE /inscricao/id``` - Cancelar inscrição
 
+##### EXEMPLO DE INSCRIÇÃO
+```
+{
+"idCampeonato": "6819107041f357547c1b04c8",
+"idJogador": "6802f99f03892277089ce38a",
+"idEquipe": null,
+"tipo": "INDIVIDUAL"
+}
+```
+
+```
+{
+"idCampeonato": "6819107041f357547c1b04c8",
+"idJogador": null,
+"idEquipe": "6802f99f03892277089ce38a",
+"tipo": "EQUIPE"
+}
+```
 ## 🏗️ Estrutura
 
 ```
