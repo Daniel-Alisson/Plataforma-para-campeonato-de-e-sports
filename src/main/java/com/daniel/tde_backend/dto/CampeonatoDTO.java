@@ -25,6 +25,7 @@ public class CampeonatoDTO {
     @Min(value = 2, message = "Mínimo de 2 participantes")
     @Max(value = 64, message = "Máximo de 64 participantes")
     private Integer numeroMaximoParticipantes;
+    private Integer numeroInscritos;
     @PositiveOrZero(message = "O valor não pode ser negativo")
     private Double valorInscricao;
     @NotBlank(message = "Campo requerido")
@@ -54,12 +55,13 @@ public class CampeonatoDTO {
     public CampeonatoDTO() {
     }
 
-    public CampeonatoDTO(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximoParticipantes, Double valorInscricao, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String premiacao, CampeonatoStatus status, String modalidade, LocalDateTime dataCriacao) {
+    public CampeonatoDTO(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximoParticipantes, Integer numeroInscritos, Double valorInscricao, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String premiacao, CampeonatoStatus status, String modalidade, LocalDateTime dataCriacao) {
         this.id = id;
         this.nomeCampeonato = nomeCampeonato;
         this.nomeJogo = nomeJogo;
         this.tipo = tipo;
         this.numeroMaximoParticipantes = numeroMaximoParticipantes;
+        this.numeroInscritos = numeroInscritos;
         this.valorInscricao = valorInscricao;
         this.formato = formato;
         this.regras = regras;
@@ -80,6 +82,7 @@ public class CampeonatoDTO {
         this.nomeJogo = entity.getNomeJogo();
         this.tipo = entity.getTipo();
         this.numeroMaximoParticipantes = entity.getNumeroMaximoParticipantes();
+        this.numeroInscritos = entity.getNumeroInscritos();
         this.valorInscricao = entity.getValorInscricao();
         this.formato = entity.getFormato();
         this.regras = entity.getRegras();
@@ -92,6 +95,10 @@ public class CampeonatoDTO {
         this.status = entity.getStatus();
         this.modalidade = entity.getModalidade();
         this.dataCriacao = entity.getDataCriacao();
+    }
+
+    public Integer getNumeroInscritos() {
+        return numeroInscritos;
     }
 
     public LocalDateTime getDataCriacao() {
@@ -160,5 +167,29 @@ public class CampeonatoDTO {
 
     public Double getValorInscricao() {
         return valorInscricao;
+    }
+
+    @Override
+    public String toString() {
+        return "CampeonatoDTO{" +
+                "capa='" + capa + '\'' +
+                ", id='" + id + '\'' +
+                ", nomeCampeonato='" + nomeCampeonato + '\'' +
+                ", nomeJogo='" + nomeJogo + '\'' +
+                ", tipo=" + tipo +
+                ", numeroMaximoParticipantes=" + numeroMaximoParticipantes +
+                ", numeroInscritos =" + numeroInscritos +
+                ", valorInscricao=" + valorInscricao +
+                ", formato='" + formato + '\'' +
+                ", regras='" + regras + '\'' +
+                ", dataInicio=" + dataInicio +
+                ", dataTermino=" + dataTermino +
+                ", localizacao='" + localizacao + '\'' +
+                ", logo='" + logo + '\'' +
+                ", premiacao='" + premiacao + '\'' +
+                ", status=" + status +
+                ", modalidade='" + modalidade + '\'' +
+                ", dataCriacao=" + dataCriacao +
+                '}';
     }
 }

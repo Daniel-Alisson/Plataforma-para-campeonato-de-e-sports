@@ -35,7 +35,12 @@ public class InscricaoService {
 
     // TENHO Q LEMBRAR DE CRIAR UMA CLASSE EQUIPE E SUBSTITUIR O REPOSITORY AQ
 
+    @Transactional
     public InscricaoDTO insert(InscricaoDTO dto) {
+        Campeonato campeonato = campeonatoRepository.findById(dto.getIdCampeonato()).orElseThrow(() -> new ResourceNotFoundException("Campeonato não encontrado"));
+        if (campeonato.getNumeroInscritos() >= campeonato.getNumeroMaximoParticipantes()) {
+            throw new RuntimeException("Número máximo de vagas");
+        }
         Inscricao entity = new Inscricao();
         entity.setIdCampeonato(dto.getIdCampeonato());
         entity.setTipo(dto.getTipo());
@@ -46,8 +51,50 @@ public class InscricaoService {
         }
         entity.setDataInscricao(LocalDateTime.now());
         entity.setStatus(InscricaoStatus.PENDENTE);
+        campeonato.setNumeroInscritos(campeonato.getNumeroInscritos() + 1);
+        campeonatoRepository.save(campeonato);
         entity = repository.save(entity);
         return new InscricaoDTO(entity);
+    }
+
+    @Transactional(readOnly = true)
+    public InscricaoDTO findById(String id) {
+        Inscricao inscricao = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Inscrição não encontrada"));
+        return new InscricaoDTO(inscricao);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<InscricaoDTO> findAll(Pageable pageable) {
+        Page<Inscricao> result = repository.findAll(pageable);
+        return result.map(x -> new InscricaoDTO(x));
+    }
+
+    @Transactional
+    public InscricaoDTO update(String id, InscricaoDTO dto) {
+        Inscricao entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Inscrição não encontrada"));
+        copyDtoToEntity(dto, entity);
+        entity = repository.save(entity);
+        return new InscricaoDTO(entity);
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete(String id) {
+        if (!repository.existsById(id)) {
+            throw new ResourceNotFoundException("Inscrição não encontrada");
+        }
+        if (!campeonatoRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Campeonato não encontrado");
+        }
+        try {
+            Campeonato campeonato = new Campeonato();
+            if (campeonato.getNumeroInscritos() > 0) {
+                campeonato.setNumeroInscritos(campeonato.getNumeroInscritos() - 1);
+                campeonatoRepository.save(campeonato);
+            }
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException("Falha de integridade referencial");
+        }
     }
 
     private void copyDtoToEntity(InscricaoDTO dto, Inscricao entity) {

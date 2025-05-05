@@ -17,6 +17,8 @@ public class Campeonato {
     private String nomeJogo;
     private CampeonatoTipo tipo;
     private Integer numeroMaximoParticipantes;
+    //
+    private Integer numeroInscritos = 0;
     private Double valorInscricao;
     private String formato;
     private String regras;
@@ -33,12 +35,13 @@ public class Campeonato {
     public Campeonato() {
     }
 
-    public Campeonato(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximoParticipantes, Double valorInscricao, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String premiacao, CampeonatoStatus status, String modalidade, LocalDateTime dataCriacao) {
+    public Campeonato(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximoParticipantes, Integer numeroInscritos, Double valorInscricao, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String premiacao, CampeonatoStatus status, String modalidade, LocalDateTime dataCriacao) {
         this.id = id;
         this.nomeCampeonato = nomeCampeonato;
         this.nomeJogo = nomeJogo;
         this.tipo = tipo;
         this.numeroMaximoParticipantes = numeroMaximoParticipantes;
+        this.numeroInscritos = numeroInscritos;
         this.valorInscricao = valorInscricao;
         this.formato = formato;
         this.regras = regras;
@@ -51,6 +54,14 @@ public class Campeonato {
         this.status = status;
         this.modalidade = modalidade;
         this.dataCriacao = dataCriacao;
+    }
+
+    public Integer getNumeroInscritos() {
+        return numeroInscritos;
+    }
+
+    public void setNumeroInscritos(Integer numeroInscritos) {
+        this.numeroInscritos = numeroInscritos;
     }
 
     public void setValorInscricao(Double valorInscricao) {
