@@ -51,4 +51,15 @@ public class EquipeDTO {
     public String getNome() {
         return nome;
     }
+
+    @Override
+    public String toString() {
+        return "EquipeDTO{" +
+                "id='" + id + '\'' +
+                ", nome='" + nome + '\'' +
+                ", membros=" + membros +
+                ", dataCriacao=" + dataCriacao +
+                ", logoUrl='" + logoUrl + '\'' +
+                '}';
+    }
 }

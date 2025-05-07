@@ -9,6 +9,7 @@ import com.daniel.tde_backend.models.enums.CampeonatoStatus;
 import com.daniel.tde_backend.models.enums.InscricaoStatus;
 import com.daniel.tde_backend.models.enums.TipoParticipante;
 import com.daniel.tde_backend.repositories.CampeonatoRepository;
+import com.daniel.tde_backend.repositories.EquipeRepository;
 import com.daniel.tde_backend.repositories.InscricaoRepository;
 import com.daniel.tde_backend.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,8 @@ public class InscricaoService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private EquipeRepository equipeRepository;
     // TENHO Q LEMBRAR DE CRIAR UMA CLASSE EQUIPE E SUBSTITUIR O REPOSITORY AQ
 
     @Transactional
@@ -47,8 +50,9 @@ public class InscricaoService {
         if (dto.getTipo() == TipoParticipante.INDIVIDUAL) {
             entity.setIdJogador(dto.getIdJogador());
         } else if (dto.getTipo() == TipoParticipante.EQUIPE) {
-            entity.setIdEquipe(dto.getIdEquipe());
+            entity.setEquipe(dto.getEquipe());
         }
+        // criar uma verificação, se existe a equipe ou n
         entity.setDataInscricao(LocalDateTime.now());
         entity.setStatus(InscricaoStatus.PENDENTE);
         campeonato.setNumeroInscritos(campeonato.getNumeroInscritos() + 1);
@@ -99,7 +103,6 @@ public class InscricaoService {
 
     private void copyDtoToEntity(InscricaoDTO dto, Inscricao entity) {
         entity.setIdCampeonato(dto.getIdCampeonato());
-        entity.setIdJogador(dto.getIdJogador());
         entity.setIdJogador(dto.getIdJogador());
         entity.setTipo(dto.getTipo());
         entity.setStatus(dto.getStatus());

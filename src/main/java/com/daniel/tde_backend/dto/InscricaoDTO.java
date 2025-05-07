@@ -1,5 +1,6 @@
 package com.daniel.tde_backend.dto;
 
+import com.daniel.tde_backend.models.Equipe;
 import com.daniel.tde_backend.models.Inscricao;
 import com.daniel.tde_backend.models.enums.InscricaoStatus;
 import com.daniel.tde_backend.models.enums.TipoParticipante;
@@ -14,7 +15,7 @@ public class InscricaoDTO {
     @NotBlank(message = "Campo requerido")
     private String idCampeonato;
     private String idJogador;
-    private String idEquipe;
+    private Equipe equipe;
     private TipoParticipante tipo;
     private InscricaoStatus status;
     private LocalDateTime dataInscricao;
@@ -22,11 +23,11 @@ public class InscricaoDTO {
     public InscricaoDTO() {
     }
 
-    public InscricaoDTO(String id, String idCampeonato, String idJogador, String idEquipe, TipoParticipante tipo, InscricaoStatus status, LocalDateTime dataInscricao) {
+    public InscricaoDTO(String id, String idCampeonato, String idJogador, Equipe equipe, TipoParticipante tipo, InscricaoStatus status, LocalDateTime dataInscricao) {
         this.id = id;
         this.idCampeonato = idCampeonato;
         this.idJogador = idJogador;
-        this.idEquipe = idEquipe;
+        this.equipe = equipe;
         this.tipo = tipo;
         this.status = status;
         this.dataInscricao = dataInscricao;
@@ -36,7 +37,7 @@ public class InscricaoDTO {
         this.id = entity.getId();
         this.idCampeonato = entity.getIdCampeonato();
         this.idJogador = entity.getIdJogador();
-        this.idEquipe = entity.getIdEquipe();
+        this.equipe = entity.getEquipe();
         this.tipo = entity.getTipo();
         this.status = entity.getStatus();
         this.dataInscricao = entity.getDataInscricao();
@@ -54,8 +55,8 @@ public class InscricaoDTO {
         return idCampeonato;
     }
 
-    public String getIdEquipe() {
-        return idEquipe;
+    public Equipe getEquipe() {
+        return equipe;
     }
 
     public String getIdJogador() {

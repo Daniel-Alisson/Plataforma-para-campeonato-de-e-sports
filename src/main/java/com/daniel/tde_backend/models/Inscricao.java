@@ -14,7 +14,7 @@ public class Inscricao {
     private String id;
     private String idCampeonato;
     private String idJogador;
-    private String idEquipe;
+    private Equipe equipe;
     private TipoParticipante tipo;
     private InscricaoStatus status;
     private LocalDateTime dataInscricao;
@@ -23,11 +23,11 @@ public class Inscricao {
         this.dataInscricao = LocalDateTime.now();
     }
 
-    public Inscricao(String id, String idCampeonato, String idJogador, String idEquipe, TipoParticipante tipo, InscricaoStatus status) {
+    public Inscricao(String id, String idCampeonato, String idJogador, Equipe equipe, TipoParticipante tipo, InscricaoStatus status) {
         this.id = id;
         this.idCampeonato = idCampeonato;
         this.idJogador = idJogador;
-        this.idEquipe = idEquipe;
+        this.equipe = equipe;
         this.tipo = tipo;
         this.status = status;
         this.dataInscricao = LocalDateTime.now();
@@ -57,12 +57,12 @@ public class Inscricao {
         this.idCampeonato = idCampeonato;
     }
 
-    public String getIdEquipe() {
-        return idEquipe;
+    public Equipe getEquipe() {
+        return equipe;
     }
 
-    public void setIdEquipe(String idEquipe) {
-        this.idEquipe = idEquipe;
+    public void setEquipe(Equipe equipe) {
+        this.equipe = equipe;
     }
 
     public String getIdJogador() {
