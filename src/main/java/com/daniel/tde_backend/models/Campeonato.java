@@ -6,7 +6,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Document(collection = "campeonatos")
 public class Campeonato {
@@ -17,7 +16,6 @@ public class Campeonato {
     private String nomeJogo;
     private CampeonatoTipo tipo;
     private Integer numeroMaximoParticipantes;
-    //
     private Integer numeroInscritos = 0;
     private Double valorInscricao;
     private String formato;
