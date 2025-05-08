@@ -2,12 +2,14 @@ package com.daniel.tde_backend.services;
 
 import com.daniel.tde_backend.dto.CampeonatoDTO;
 import com.daniel.tde_backend.dto.InscricaoDTO;
+import com.daniel.tde_backend.exceptions.InvalidInscricaoException;
 import com.daniel.tde_backend.exceptions.ResourceNotFoundException;
 import com.daniel.tde_backend.models.Campeonato;
+import com.daniel.tde_backend.models.Equipe;
 import com.daniel.tde_backend.models.Inscricao;
-import com.daniel.tde_backend.models.enums.CampeonatoStatus;
+import com.daniel.tde_backend.models.Usuario;
+import com.daniel.tde_backend.models.enums.CampeonatoTipo;
 import com.daniel.tde_backend.models.enums.InscricaoStatus;
-import com.daniel.tde_backend.models.enums.TipoParticipante;
 import com.daniel.tde_backend.repositories.CampeonatoRepository;
 import com.daniel.tde_backend.repositories.EquipeRepository;
 import com.daniel.tde_backend.repositories.InscricaoRepository;
@@ -36,7 +38,6 @@ public class InscricaoService {
 
     @Autowired
     private EquipeRepository equipeRepository;
-    // TENHO Q LEMBRAR DE CRIAR UMA CLASSE EQUIPE E SUBSTITUIR O REPOSITORY AQ
 
     @Transactional
     public InscricaoDTO insert(InscricaoDTO dto) {
@@ -44,15 +45,28 @@ public class InscricaoService {
         if (campeonato.getNumeroInscritos() >= campeonato.getNumeroMaximoParticipantes()) {
             throw new RuntimeException("Número máximo de vagas");
         }
+        if (campeonato.getTipo() == CampeonatoTipo.INDIVIDUAL) {
+            if (dto.getIdJogador() == null || dto.getIdEquipe() != null) {
+                throw new InvalidInscricaoException("O campeonato individual requer o ID do jogador e não pode conter o ID da equipe");
+            }
+        } else if (campeonato.getTipo() == CampeonatoTipo.EQUIPE) {
+            if (dto.getIdEquipe() == null || dto.getIdJogador() != null) {
+                throw new InvalidInscricaoException("O campeonato por equipe requer o ID da equipe e não pode conter o ID do jogador");
+            }
+        } else {
+            throw new InvalidInscricaoException("Tipo de participante inválido");
+        }
+
         Inscricao entity = new Inscricao();
         entity.setIdCampeonato(dto.getIdCampeonato());
-        entity.setTipo(dto.getTipo());
-        if (dto.getTipo() == TipoParticipante.INDIVIDUAL) {
+        if (campeonato.getTipo() == CampeonatoTipo.INDIVIDUAL) {
+            Usuario usuario = usuarioRepository.findById(dto.getIdJogador()).orElseThrow(() -> new ResourceNotFoundException("Jogador não encontrado"));
             entity.setIdJogador(dto.getIdJogador());
-        } else if (dto.getTipo() == TipoParticipante.EQUIPE) {
-            entity.setEquipe(dto.getEquipe());
+        } else {
+            Equipe equipe = equipeRepository.findById(dto.getIdEquipe()).orElseThrow(() -> new ResourceNotFoundException("Equipe não encontrada"));
+            entity.setIdEquipe(dto.getIdEquipe());
         }
-        // criar uma verificação, se existe a equipe ou n
+
         entity.setDataInscricao(LocalDateTime.now());
         entity.setStatus(InscricaoStatus.PENDENTE);
         campeonato.setNumeroInscritos(campeonato.getNumeroInscritos() + 1);
@@ -104,7 +118,7 @@ public class InscricaoService {
     private void copyDtoToEntity(InscricaoDTO dto, Inscricao entity) {
         entity.setIdCampeonato(dto.getIdCampeonato());
         entity.setIdJogador(dto.getIdJogador());
-        entity.setTipo(dto.getTipo());
+        entity.setIdEquipe(dto.getIdEquipe());
         entity.setStatus(dto.getStatus());
         entity.setDataInscricao(dto.getDataInscricao());
     }

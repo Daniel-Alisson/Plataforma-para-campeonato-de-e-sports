@@ -22,8 +22,10 @@ import java.util.Map;
 public class InscricaoController {
 
     // USAR PARA TESTES
-    // ID USUARIO - 6802f99f03892277089ce38a
-    // ID CAMPEONATO - 68099f54062b737d8d2585ae
+    // ID CAMPEONATO EQUIPE - 681d00e9d989dd144a717ee0
+    // ID CAMPEONATO INDIVIDUAL - 6819107041f357547c1b04c8
+    // ID JOGADOR - 6802f99f03892277089ce38a
+    // ID EQUIPE - 681bf0847078a250888c074a
 
     @Autowired
     private InscricaoService service;

@@ -1,6 +1,7 @@
 package com.daniel.tde_backend.exceptions.handlers;
 
 import com.daniel.tde_backend.exceptions.*;
+import com.daniel.tde_backend.exceptions.InvalidInscricaoException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,13 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(InvalidDataException.class)
     public ResponseEntity<CustomError> dataInvalida(InvalidDataException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomError err = new CustomError(e.getMessage(), Instant.now(), request.getRequestURI(), status.value());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(InvalidInscricaoException.class)
+    public ResponseEntity<CustomError> argumentoInvalido(InvalidInscricaoException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         CustomError err = new CustomError(e.getMessage(), Instant.now(), request.getRequestURI(), status.value());
         return ResponseEntity.status(status).body(err);

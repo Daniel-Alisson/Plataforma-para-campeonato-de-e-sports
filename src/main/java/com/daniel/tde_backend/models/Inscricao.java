@@ -1,7 +1,6 @@
 package com.daniel.tde_backend.models;
 
 import com.daniel.tde_backend.models.enums.InscricaoStatus;
-import com.daniel.tde_backend.models.enums.TipoParticipante;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,8 +13,7 @@ public class Inscricao {
     private String id;
     private String idCampeonato;
     private String idJogador;
-    private Equipe equipe;
-    private TipoParticipante tipo;
+    private String idEquipe;
     private InscricaoStatus status;
     private LocalDateTime dataInscricao;
 
@@ -23,12 +21,11 @@ public class Inscricao {
         this.dataInscricao = LocalDateTime.now();
     }
 
-    public Inscricao(String id, String idCampeonato, String idJogador, Equipe equipe, TipoParticipante tipo, InscricaoStatus status) {
+    public Inscricao(String id, String idCampeonato, String idJogador, String idEquipe, InscricaoStatus status) {
         this.id = id;
         this.idCampeonato = idCampeonato;
         this.idJogador = idJogador;
-        this.equipe = equipe;
-        this.tipo = tipo;
+        this.idEquipe = idEquipe;
         this.status = status;
         this.dataInscricao = LocalDateTime.now();
     }
@@ -57,12 +54,12 @@ public class Inscricao {
         this.idCampeonato = idCampeonato;
     }
 
-    public Equipe getEquipe() {
-        return equipe;
+    public String getIdEquipe() {
+        return idEquipe;
     }
 
-    public void setEquipe(Equipe equipe) {
-        this.equipe = equipe;
+    public void setIdEquipe(String idEquipe) {
+        this.idEquipe = idEquipe;
     }
 
     public String getIdJogador() {
@@ -81,11 +78,4 @@ public class Inscricao {
         this.status = status;
     }
 
-    public TipoParticipante getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoParticipante tipo) {
-        this.tipo = tipo;
-    }
 }

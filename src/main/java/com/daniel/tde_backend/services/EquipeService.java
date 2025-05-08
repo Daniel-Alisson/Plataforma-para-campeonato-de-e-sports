@@ -1,11 +1,8 @@
 package com.daniel.tde_backend.services;
 
-import com.daniel.tde_backend.dto.CampeonatoDTO;
 import com.daniel.tde_backend.dto.EquipeDTO;
 import com.daniel.tde_backend.exceptions.ResourceNotFoundException;
-import com.daniel.tde_backend.models.Campeonato;
 import com.daniel.tde_backend.models.Equipe;
-import com.daniel.tde_backend.models.enums.CampeonatoStatus;
 import com.daniel.tde_backend.repositories.EquipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
