@@ -52,7 +52,6 @@ public class UsuarioService {
         return result.map(x -> new UsuarioDTO(x));
     }
 
-    // Testar idade
     @Transactional
     public UsuarioDTO update(String id, UsuarioDTO dto) {
         if (dto.getDataNascimento().isAfter(LocalDate.now().minusYears(13))) {

@@ -29,11 +29,12 @@ public class Campeonato {
     private CampeonatoStatus status;
     private String modalidade;
     private LocalDateTime dataCriacao;
+    private String idPromotor;
 
     public Campeonato() {
     }
 
-    public Campeonato(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximoParticipantes, Integer numeroInscritos, Double valorInscricao, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String premiacao, CampeonatoStatus status, String modalidade, LocalDateTime dataCriacao) {
+    public Campeonato(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximoParticipantes, Integer numeroInscritos, Double valorInscricao, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String premiacao, CampeonatoStatus status, String modalidade, LocalDateTime dataCriacao, String idPromotor) {
         this.id = id;
         this.nomeCampeonato = nomeCampeonato;
         this.nomeJogo = nomeJogo;
@@ -52,6 +53,7 @@ public class Campeonato {
         this.status = status;
         this.modalidade = modalidade;
         this.dataCriacao = dataCriacao;
+        this.idPromotor = idPromotor;
     }
 
     public Integer getNumeroInscritos() {
@@ -196,5 +198,13 @@ public class Campeonato {
 
     public void setTipo(CampeonatoTipo tipo) {
         this.tipo = tipo;
+    }
+
+    public String getIdPromotor() {
+        return idPromotor;
+    }
+
+    public void setIdPromotor(String idPromotor) {
+        this.idPromotor = idPromotor;
     }
 }

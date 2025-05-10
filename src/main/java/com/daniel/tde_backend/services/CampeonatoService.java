@@ -20,7 +20,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class CampeonatoService {
-
+    // APENAS O ADMIN VAI USAR ESSE SERVICE,
+    // ID PROMOTOR VAI FICAR NULL E ELE PODE FAZER QUALQUER ALTERAÇÃO NOS CAMPEONATOS
     @Autowired
     private CampeonatoRepository repository;
 

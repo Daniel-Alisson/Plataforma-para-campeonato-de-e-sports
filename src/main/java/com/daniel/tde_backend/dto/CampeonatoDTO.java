@@ -51,11 +51,12 @@ public class CampeonatoDTO {
     @NotBlank(message = "Campo requerido")
     private String modalidade;
     private LocalDateTime dataCriacao;
+    private String idPromotor;
 
     public CampeonatoDTO() {
     }
 
-    public CampeonatoDTO(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximoParticipantes, Integer numeroInscritos, Double valorInscricao, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String premiacao, CampeonatoStatus status, String modalidade, LocalDateTime dataCriacao) {
+    public CampeonatoDTO(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximoParticipantes, Integer numeroInscritos, Double valorInscricao, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String premiacao, CampeonatoStatus status, String modalidade, LocalDateTime dataCriacao, String idPromotor) {
         this.id = id;
         this.nomeCampeonato = nomeCampeonato;
         this.nomeJogo = nomeJogo;
@@ -74,6 +75,7 @@ public class CampeonatoDTO {
         this.status = status;
         this.modalidade = modalidade;
         this.dataCriacao = dataCriacao;
+        this.idPromotor = idPromotor;
     }
 
     public CampeonatoDTO(Campeonato entity) {
@@ -95,6 +97,7 @@ public class CampeonatoDTO {
         this.status = entity.getStatus();
         this.modalidade = entity.getModalidade();
         this.dataCriacao = entity.getDataCriacao();
+        this.idPromotor = entity.getIdPromotor();
     }
 
     public Integer getNumeroInscritos() {
@@ -169,6 +172,10 @@ public class CampeonatoDTO {
         return valorInscricao;
     }
 
+    public String getIdPromotor() {
+        return idPromotor;
+    }
+
     @Override
     public String toString() {
         return "CampeonatoDTO{" +
@@ -190,6 +197,7 @@ public class CampeonatoDTO {
                 ", status=" + status +
                 ", modalidade='" + modalidade + '\'' +
                 ", dataCriacao=" + dataCriacao +
+                ", idPromotor=" + idPromotor +
                 '}';
     }
 }
