@@ -2,7 +2,6 @@ package com.daniel.tde_backend.controllers;
 
 import com.daniel.tde_backend.dto.CampeonatoDTO;
 import com.daniel.tde_backend.dto.InscricaoDTO;
-import com.daniel.tde_backend.dto.UsuarioDTO;
 import com.daniel.tde_backend.services.CampeonatoService;
 import com.daniel.tde_backend.services.InscricaoService;
 import jakarta.validation.Valid;
@@ -48,25 +47,25 @@ public class InscricaoController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<InscricaoDTO>> findAll(Pageable pageable) {
+    public ResponseEntity<Page<InscricaoDTO>> listarInscricoes(Pageable pageable) {
         Page<InscricaoDTO> list = service.findAll(pageable);
         return ResponseEntity.ok(list);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<InscricaoDTO> findById(@PathVariable String id) {
+    public ResponseEntity<InscricaoDTO> listarInscricaoPorId(@PathVariable String id) {
         InscricaoDTO dto = service.findById(id);
         return ResponseEntity.ok(dto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<InscricaoDTO> update(@PathVariable String id, @Valid @RequestBody InscricaoDTO dto) {
+    public ResponseEntity<InscricaoDTO> atualizarInscricao(@PathVariable String id, @Valid @RequestBody InscricaoDTO dto) {
         dto = service.update(id, dto);
         return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
+    public ResponseEntity<Void> removerInscricao(@PathVariable String id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

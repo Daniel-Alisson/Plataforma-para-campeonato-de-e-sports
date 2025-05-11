@@ -1,4 +1,4 @@
-package com.daniel.tde_backend.exceptions;
+package com.daniel.tde_backend.exceptions.custom;
 
 import java.time.Instant;
 import java.util.ArrayList;

@@ -4,6 +4,7 @@ import com.daniel.tde_backend.dto.CampeonatoDTO;
 import com.daniel.tde_backend.dto.InscricaoDTO;
 import com.daniel.tde_backend.exceptions.InvalidInscricaoException;
 import com.daniel.tde_backend.exceptions.ResourceNotFoundException;
+import com.daniel.tde_backend.exceptions.VagasEsgotadasException;
 import com.daniel.tde_backend.models.Campeonato;
 import com.daniel.tde_backend.models.Equipe;
 import com.daniel.tde_backend.models.Inscricao;
@@ -43,7 +44,7 @@ public class InscricaoService {
     public InscricaoDTO insert(InscricaoDTO dto) {
         Campeonato campeonato = campeonatoRepository.findById(dto.getIdCampeonato()).orElseThrow(() -> new ResourceNotFoundException("Campeonato não encontrado"));
         if (campeonato.getNumeroInscritos() >= campeonato.getNumeroMaximoParticipantes()) {
-            throw new RuntimeException("Número máximo de vagas");
+            throw new VagasEsgotadasException("Número máximo de vagas atingido [" + campeonato.getNumeroMaximoParticipantes() + "]");
         }
         if (campeonato.getTipo() == CampeonatoTipo.INDIVIDUAL) {
             if (dto.getIdJogador() == null || dto.getIdEquipe() != null) {

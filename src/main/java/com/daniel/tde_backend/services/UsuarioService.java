@@ -30,7 +30,7 @@ public class UsuarioService {
     @Transactional
     public UsuarioDTO cadastrarUsuario(UsuarioCadastroDTO dto) {
         if (repository.findByEmail(dto.getEmail()).isPresent()) {
-            throw new InvalidEmailException("E-mail já cadastro");
+            throw new InvalidEmailException("E-mail já cadastrado");
         }
         Usuario entity = new Usuario();
         entity.setEmail(dto.getEmail());
@@ -41,19 +41,19 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = true)
-    public UsuarioDTO findById(String id) {
+    public UsuarioDTO buscarUsuarioPorId(String id) {
         Usuario usuario = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
         return new UsuarioDTO(usuario);
     }
 
     @Transactional(readOnly = true)
-    public Page<UsuarioDTO> findAll(Pageable pageable) {
+    public Page<UsuarioDTO> buscarUsuarios(Pageable pageable) {
         Page<Usuario> result = repository.findAll(pageable);
         return result.map(x -> new UsuarioDTO(x));
     }
 
     @Transactional
-    public UsuarioDTO update(String id, UsuarioDTO dto) {
+    public UsuarioDTO atualizarUsuario(String id, UsuarioDTO dto) {
         if (dto.getDataNascimento().isAfter(LocalDate.now().minusYears(13))) {
             throw new InvalidDataException("Usuário deve ter pelo menos 13 anos");
         }

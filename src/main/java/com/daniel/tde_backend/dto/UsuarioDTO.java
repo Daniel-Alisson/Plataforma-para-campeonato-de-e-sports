@@ -14,8 +14,6 @@ public class UsuarioDTO {
     private String nome;
     @Size(min = 3, max = 50, message = "Nickname precisa ter de 3 a 50 caracteres")
     private String nickName;
-    private String email;
-    private String senha;
     @NotNull(message = "Campo requerido")
     @Past(message = "Data precisa ser válida")
     private LocalDate dataNascimento;
@@ -25,12 +23,10 @@ public class UsuarioDTO {
     public UsuarioDTO() {
     }
 
-    public UsuarioDTO(String id, String nome, String nickName, String email, String senha, LocalDate dataNascimento, String imgUrl, UsuarioTipo tipo) {
+    public UsuarioDTO(String id, String nome, String nickName, LocalDate dataNascimento, String imgUrl, UsuarioTipo tipo) {
         this.id = id;
         this.nome = nome;
         this.nickName = nickName;
-        this.email = email;
-        this.senha = senha;
         this.dataNascimento = dataNascimento;
         this.imgUrl = imgUrl;
         this.tipo = tipo;
@@ -40,8 +36,6 @@ public class UsuarioDTO {
         this.id = entitiy.getId();
         this.nome = entitiy.getNome();
         this.nickName = entitiy.getNickName();
-        this.email = entitiy.getEmail();
-        this.senha = entitiy.getSenha();
         this.dataNascimento = entitiy.getDataNascimento();
         this.imgUrl = entitiy.getImgUrl();
         this.tipo = entitiy.getTipo();
@@ -49,10 +43,6 @@ public class UsuarioDTO {
 
     public LocalDate getDataNascimento() {
         return dataNascimento;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public String getId() {
@@ -69,10 +59,6 @@ public class UsuarioDTO {
 
     public String getNome() {
         return nome;
-    }
-
-    public String getSenha() {
-        return senha;
     }
 
     public UsuarioTipo getTipo() {

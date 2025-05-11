@@ -3,7 +3,6 @@ package com.daniel.tde_backend.services;
 import com.daniel.tde_backend.dto.CampeonatoDTO;
 import com.daniel.tde_backend.exceptions.ResourceNotFoundException;
 import com.daniel.tde_backend.models.Campeonato;
-import com.daniel.tde_backend.models.Inscricao;
 import com.daniel.tde_backend.models.enums.CampeonatoStatus;
 import com.daniel.tde_backend.repositories.CampeonatoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CampeonatoService {

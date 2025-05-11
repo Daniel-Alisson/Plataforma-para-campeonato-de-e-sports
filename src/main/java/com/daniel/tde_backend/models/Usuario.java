@@ -14,7 +14,6 @@ import java.util.List;
 @Document(collection = "usuarios")
 public class Usuario implements UserDetails {
 
-    // EU USAVA LONG, MAS PARECE Q NO MONGODB ELE USA _ID EM VEZ DE ID, ENTÃO COLOQUEI STRING
     @Id
     private String id;
     private String nome;
@@ -105,7 +104,14 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.tipo == UsuarioTipo.PROMOTOR) {
+        if (this.tipo == UsuarioTipo.ADMIN) {
+            return List.of(
+                    new SimpleGrantedAuthority("ROLE_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_PROMOTOR"),
+                    new SimpleGrantedAuthority("ROLE_JOGADOR"));
+        }
+
+        else if (this.tipo == UsuarioTipo.PROMOTOR) {
             return List.of(
                     new SimpleGrantedAuthority("ROLE_PROMOTOR"),
                     new SimpleGrantedAuthority("ROLE_JOGADOR"));

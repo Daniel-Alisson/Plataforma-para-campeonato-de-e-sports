@@ -29,28 +29,28 @@ public class PromotorController {
     }
 
     @GetMapping("/meus-campeonatos")
-    public ResponseEntity<Page<CampeonatoDTO>> listarByPromotor(Pageable pageable) {
+    public ResponseEntity<Page<CampeonatoDTO>> listarPorPromotor(Pageable pageable) {
         String idPromotor = emailAuthenticated();
         Page<CampeonatoDTO> list = service.listar(idPromotor, pageable);
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/meus-campeonatos/{id}")
-    public ResponseEntity<CampeonatoDTO> findById(@PathVariable String id) {
+    public ResponseEntity<CampeonatoDTO> buscarCampeonatos(@PathVariable String id) {
         String idPromotor = emailAuthenticated();
         CampeonatoDTO dto = service.findByid(id, idPromotor);
         return ResponseEntity.ok().body(dto);
     }
 
     @PutMapping(value = "/meus-campeonatos/{id}")
-    public ResponseEntity<CampeonatoDTO> update(@PathVariable String id, @Valid @RequestBody CampeonatoDTO dto) {
+    public ResponseEntity<CampeonatoDTO> atualizarCampeonato(@PathVariable String id, @Valid @RequestBody CampeonatoDTO dto) {
         String idPromotor = emailAuthenticated();
         dto = service.update(id, dto, idPromotor);
         return ResponseEntity.ok().body(dto);
     }
 
     @DeleteMapping(value = "/meus-campeonatos/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
+    public ResponseEntity<Void> deletarCampeonato(@PathVariable String id) {
         String idPromotor = emailAuthenticated();
         service.delete(id, idPromotor);
         return ResponseEntity.noContent().build();

@@ -1,6 +1,7 @@
 package com.daniel.tde_backend.services;
 
 import com.daniel.tde_backend.dto.CampeonatoDTO;
+import com.daniel.tde_backend.exceptions.InvalidAccessException;
 import com.daniel.tde_backend.exceptions.ResourceNotFoundException;
 import com.daniel.tde_backend.models.Campeonato;
 import com.daniel.tde_backend.models.enums.CampeonatoStatus;
@@ -16,7 +17,6 @@ import java.time.LocalDateTime;
 @Service
 public class PromotorService {
 
-    // CRIAR DPS UMA EXCESSÃO CHAMADA InvalidAcessException para impedir o acesso de outros pessoas
     @Autowired
     private CampeonatoRepository repository;
 
@@ -48,7 +48,7 @@ public class PromotorService {
     public CampeonatoDTO update(String id, CampeonatoDTO dto, String idPromotor) {
         Campeonato entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Campeonato não encontrado"));
         if (!entity.getIdPromotor().equals(idPromotor)) {
-            throw new RuntimeException("Você não tem permissão para acessar este campeonato");
+            throw new InvalidAccessException("Você não tem permissão para acessar este campeonato");
         }
         copyDtoToEntity(dto, entity);
         entity = repository.save(entity);
@@ -59,7 +59,7 @@ public class PromotorService {
     public void delete(String id, String idPromotor) {
         Campeonato entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Campeonato não encontrado"));
         if (!entity.getIdPromotor().equals(idPromotor)) {
-            throw new RuntimeException("Você não tem permissão para acessar este campeonato");
+            throw new InvalidAccessException("Você não tem permissão para acessar este campeonato");
         }
         repository.deleteById(id);
     }

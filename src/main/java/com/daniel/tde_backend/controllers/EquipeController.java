@@ -28,7 +28,7 @@ public class EquipeController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<EquipeDTO> buscarEquipeById(@PathVariable String id) {
+    public ResponseEntity<EquipeDTO> buscarEquipePorId(@PathVariable String id) {
         EquipeDTO dto = service.findById(id);
         return ResponseEntity.ok(dto);
     }
