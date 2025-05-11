@@ -68,4 +68,11 @@ public class ControllerExceptionHandler {
         CustomError err = new CustomError(e.getMessage(), Instant.now(), request.getRequestURI(), status.value());
         return ResponseEntity.status(status).body(err);
     }
+
+    @ExceptionHandler(InvalidPromotionException.class)
+    public ResponseEntity<CustomError> promocaoInvalida(InvalidPromotionException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
+        CustomError err = new CustomError(e.getMessage(), Instant.now(), request.getRequestURI(), status.value());
+        return ResponseEntity.status(status).body(err);
+    }
 }
