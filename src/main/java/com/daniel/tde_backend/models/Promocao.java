@@ -15,16 +15,18 @@ public class Promocao {
     private String nome;
     private LocalDateTime dataCriacao;
     private PromocaoStatus status;
+    private String descricao;
 
     public Promocao() {
     }
 
-    public Promocao(String id, String idJogador, String nome, LocalDateTime dataCriacao, PromocaoStatus status) {
+    public Promocao(String id, String idJogador, String nome, LocalDateTime dataCriacao, PromocaoStatus status, String descricao) {
         this.id = id;
         this.idJogador = idJogador;
         this.nome = nome;
         this.dataCriacao = dataCriacao;
         this.status = status;
+        this.descricao = descricao;
     }
 
     public String getId() {
@@ -65,5 +67,13 @@ public class Promocao {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 }

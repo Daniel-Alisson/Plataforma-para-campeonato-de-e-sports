@@ -12,16 +12,18 @@ public class PromocaoDTO {
     private String nome;
     private LocalDateTime dataCriacao;
     private PromocaoStatus status;
+    private String descricao;
 
     public PromocaoDTO() {
     }
 
-    public PromocaoDTO(String id, String idJogador, String nome, LocalDateTime dataCriacao, PromocaoStatus status) {
+    public PromocaoDTO(String id, String idJogador, String nome, LocalDateTime dataCriacao, PromocaoStatus status, String descricao) {
         this.id = id;
         this.idJogador = idJogador;
         this.nome = nome;
         this.dataCriacao = dataCriacao;
         this.status = status;
+        this.descricao = descricao;
     }
 
     public PromocaoDTO(Promocao entity) {
@@ -30,6 +32,7 @@ public class PromocaoDTO {
         this.nome = entity.getNome();
         this.dataCriacao = entity.getDataCriacao();
         this.status = entity.getStatus();
+        this.descricao = entity.getDescricao();
     }
 
     public String getId() {
@@ -50,5 +53,9 @@ public class PromocaoDTO {
 
     public String getNome() {
         return nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
     }
 }

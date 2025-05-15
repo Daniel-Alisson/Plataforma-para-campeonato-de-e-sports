@@ -6,6 +6,7 @@ import com.daniel.tde_backend.exceptions.ResourceNotFoundException;
 import com.daniel.tde_backend.models.Promocao;
 import com.daniel.tde_backend.models.Usuario;
 import com.daniel.tde_backend.models.enums.PromocaoStatus;
+import com.daniel.tde_backend.models.enums.UsuarioTipo;
 import com.daniel.tde_backend.repositories.PromocaoRepository;
 import com.daniel.tde_backend.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,34 @@ public class PromocaoService {
         return new PromocaoDTO(promocao);
     }
 
+    public PromocaoDTO atualizarStatus(String idJogador, PromocaoDTO dto) {
+        Optional<Promocao> solicitacao = repository.findByIdJogadorAndStatus(idJogador, PromocaoStatus.PENDENTE);
+        if (solicitacao.isEmpty()) {
+            throw new InvalidPromotionException("Não existe uma solicitação pendente para o usuário");
+        }
 
+        Promocao promocao = solicitacao.get();
+        promocao.setStatus(dto.getStatus());
+        promocao.setDescricao(dto.getDescricao());
+        if (dto.getStatus() == PromocaoStatus.APROVADO) {
+            Usuario usuario = usuarioRepository.findById(idJogador).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+            usuario.setTipo(UsuarioTipo.PROMOTOR);
+            usuarioRepository.save(usuario);
+        }
+        repository.save(promocao);
+        return new PromocaoDTO(promocao);
+    }
+
+    /*
+    @Transactional
+    public void removerSolicitacao(String idJogador) {
+        Promocao promocao = repository.findByIdJogadorAndStatus(idJogador, PromocaoStatus.PENDENTE).orElseThrow(() -> new ResourceNotFoundException("Solicitação não encontrada"));
+
+        if (!promocao.getIdJogador().equals(idJogador)) {
+            throw new InvalidAccessException("Solicitação não encontrada");
+        }
+        repository.deleteById(idJogador);
+    }
+
+     */
 }

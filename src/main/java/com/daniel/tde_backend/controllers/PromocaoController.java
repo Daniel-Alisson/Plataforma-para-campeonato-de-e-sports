@@ -8,9 +8,7 @@ import com.daniel.tde_backend.services.PromocaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/promocao")
@@ -28,6 +26,20 @@ public class PromocaoController {
         PromocaoDTO dto = service.solicitarPromocao(idJogador);
         return ResponseEntity.ok().body(dto);
     }
+
+    @PatchMapping("/status/{idJogador}")
+    public ResponseEntity<PromocaoDTO> atualizarStatus(@PathVariable String idJogador, @RequestBody PromocaoDTO dto) {
+        PromocaoDTO result = service.atualizarStatus(idJogador,dto);
+        return ResponseEntity.ok(result);
+    }
+    /*
+    @DeleteMapping(value = "/{idJogador}")
+    public ResponseEntity<Void> delete(@PathVariable String idJogador) {
+        service.removerSolicitacao(idJogador);
+        return ResponseEntity.noContent().build();
+    }
+
+     */
 
     // CRIAR DPS UMA VERIFICACAO PARA O CASO DO USUARIO SER PROMOTOR
     private String emailAuthenticated() {
