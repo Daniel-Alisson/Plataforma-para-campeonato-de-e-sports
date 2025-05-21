@@ -91,6 +91,9 @@ public class InscricaoService {
     @Transactional
     public InscricaoDTO update(String id, InscricaoDTO dto) {
         Inscricao entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Inscrição não encontrada"));
+        if(dto.getStatus() == InscricaoStatus.REPROVADO) {
+            repository.delete(entity);
+        }
         copyDtoToEntity(dto, entity);
         entity = repository.save(entity);
         return new InscricaoDTO(entity);

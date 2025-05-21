@@ -34,8 +34,37 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuarios/cadastrar").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/usuarios").hasAuthority("ROLE_PROMOTOR")
-                        .requestMatchers(HttpMethod.POST, "/campeonatos").hasAuthority("ROLE_PROMOTOR")
+                        .requestMatchers(HttpMethod.GET, "/usuarios/perfil/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/usuarios/perfil").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/usuarios/perfil/{id}").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/usuarios/perfil/{id}").hasAuthority("ROLE_ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/promotor").hasAnyRole("PROMOTOR", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/promotor/meus-campeonatos").hasAnyRole("PROMOTOR", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/promotor/meus-campeonatos/{id}").hasAnyRole("PROMOTOR", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/promotor/meus-campeonatos/{id}").hasAnyRole("PROMOTOR", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/promotor/meus-campeonatos/{id}").hasAnyRole("PROMOTOR", "ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/campeonatos").hasAnyRole("PROMOTOR", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/campeonatos").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/campeonatos/{id}").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/campeonatos/{id}").hasAnyRole("PROMOTOR", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/campeonatos/{id}").hasAnyRole("PROMOTOR", "ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "equipes").hasAnyRole("JOGADOR", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/equipes/{id}").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/equipes").authenticated()
+
+                        .requestMatchers(HttpMethod.POST, "inscricao/{id}").hasAnyRole("JOGADOR", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/inscricao/{id}").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/inscricao").hasAnyRole("PROMOTOR", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/inscricao/{id}").hasAnyRole("PROMOTOR", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/inscricao/{id}").hasAnyRole("JOGADOR", "PROMOTOR", "ADMIN")
+                        // ADICIONAR O RESTO DPS
+                        // TEM Q TER APENAS UMA EQUIPE POR USUARIO, ADICIONAR A LOGICA DPS
+                        // REIVISAR DELETE DE INSCRICAO DPS
+                        .requestMatchers(HttpMethod.POST, "/promocao").hasAnyRole("JOGADOR", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/status/{idJogador}").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
