@@ -75,4 +75,18 @@ public class ControllerExceptionHandler {
         CustomError err = new CustomError(e.getMessage(), Instant.now(), request.getRequestURI(), status.value());
         return ResponseEntity.status(status).body(err);
     }
+
+    @ExceptionHandler(VagasEsgotadasException.class)
+    public ResponseEntity<CustomError> vagasEsgotadas(VagasEsgotadasException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomError err = new CustomError(e.getMessage(), Instant.now(), request.getRequestURI(), status.value());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(ClosedInscricaoException.class)
+    public ResponseEntity<CustomError> inscricoesEncerradas(ClosedInscricaoException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomError err = new CustomError(e.getMessage(), Instant.now(), request.getRequestURI(), status.value());
+        return ResponseEntity.status(status).body(err);
+    }
 }

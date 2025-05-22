@@ -2,6 +2,7 @@ package com.daniel.tde_backend.services;
 
 import com.daniel.tde_backend.dto.CampeonatoDTO;
 import com.daniel.tde_backend.dto.InscricaoDTO;
+import com.daniel.tde_backend.exceptions.ClosedInscricaoException;
 import com.daniel.tde_backend.exceptions.InvalidInscricaoException;
 import com.daniel.tde_backend.exceptions.ResourceNotFoundException;
 import com.daniel.tde_backend.exceptions.VagasEsgotadasException;
@@ -9,6 +10,7 @@ import com.daniel.tde_backend.models.Campeonato;
 import com.daniel.tde_backend.models.Equipe;
 import com.daniel.tde_backend.models.Inscricao;
 import com.daniel.tde_backend.models.Usuario;
+import com.daniel.tde_backend.models.enums.CampeonatoStatus;
 import com.daniel.tde_backend.models.enums.CampeonatoTipo;
 import com.daniel.tde_backend.models.enums.InscricaoStatus;
 import com.daniel.tde_backend.repositories.CampeonatoRepository;
@@ -45,14 +47,19 @@ public class InscricaoService {
         Campeonato campeonato = campeonatoRepository.findById(dto.getIdCampeonato()).orElseThrow(() -> new ResourceNotFoundException("Campeonato não encontrado"));
         if (campeonato.getNumeroInscritos() >= campeonato.getNumeroMaximoParticipantes()) {
             throw new VagasEsgotadasException("Número máximo de vagas atingido [" + campeonato.getNumeroMaximoParticipantes() + "]");
-        }
-        if (campeonato.getTipo() == CampeonatoTipo.INDIVIDUAL) {
+        } if (campeonato.getTipo() == CampeonatoTipo.INDIVIDUAL) {
             if (dto.getIdJogador() == null || dto.getIdEquipe() != null) {
                 throw new InvalidInscricaoException("O campeonato individual requer o ID do jogador e não pode conter o ID da equipe");
             }
-        } else if (campeonato.getTipo() == CampeonatoTipo.EQUIPE) {
+        } if (campeonato.getTipo() == CampeonatoTipo.EQUIPE) {
             if (dto.getIdEquipe() == null || dto.getIdJogador() != null) {
                 throw new InvalidInscricaoException("O campeonato por equipe requer o ID da equipe e não pode conter o ID do jogador");
+            }
+        } if (campeonato.getStatus() != CampeonatoStatus.ABERTO) {
+            if (campeonato.getStatus() == CampeonatoStatus.EM_ANDAMENTO) {
+                throw new ClosedInscricaoException("Campeonato está em andamento");
+            } else if(campeonato.getStatus() == CampeonatoStatus.FINALIZADO) {
+                throw new ClosedInscricaoException("Campeonato finalizado");
             }
         } else {
             throw new InvalidInscricaoException("Tipo de participante inválido");
