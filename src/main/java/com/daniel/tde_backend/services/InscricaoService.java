@@ -109,15 +109,11 @@ public class InscricaoService {
             repository.delete(entity);
         }
         */
+        entity.setStatus(dto.getStatus());
+        entity = repository.save(entity);
         campeonato.getInscritos().stream().filter(x -> x.getId().equals(id)).findFirst().ifPresent(x -> {
             x.setStatus(dto.getStatus());
-            x.setDataInscricao(dto.getDataInscricao());
-            x.setIdEquipe(dto.getIdEquipe());
-            x.setIdJogador(dto.getIdJogador());
         });
-
-        copyDtoToEntity(dto, entity);
-        entity = repository.save(entity);
         campeonatoRepository.save(campeonato);
         return new InscricaoDTO(entity);
     }
