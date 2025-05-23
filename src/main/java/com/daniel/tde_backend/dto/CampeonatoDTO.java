@@ -25,7 +25,7 @@ public class CampeonatoDTO {
     @Min(value = 2, message = "Mínimo de 2 participantes")
     @Max(value = 64, message = "Máximo de 64 participantes")
     private Integer numeroMaximoParticipantes;
-    private Integer numeroInscritos;
+    private List<Inscricao> inscritos;
     @PositiveOrZero(message = "O valor não pode ser negativo")
     private Double valorInscricao;
     @NotBlank(message = "Campo requerido")
@@ -56,13 +56,13 @@ public class CampeonatoDTO {
     public CampeonatoDTO() {
     }
 
-    public CampeonatoDTO(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximoParticipantes, Integer numeroInscritos, Double valorInscricao, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String premiacao, CampeonatoStatus status, String modalidade, LocalDateTime dataCriacao, String idPromotor) {
+    public CampeonatoDTO(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximoParticipantes, List<Inscricao> inscritos, Double valorInscricao, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String premiacao, CampeonatoStatus status, String modalidade, LocalDateTime dataCriacao, String idPromotor) {
         this.id = id;
         this.nomeCampeonato = nomeCampeonato;
         this.nomeJogo = nomeJogo;
         this.tipo = tipo;
         this.numeroMaximoParticipantes = numeroMaximoParticipantes;
-        this.numeroInscritos = numeroInscritos;
+        this.inscritos = inscritos;
         this.valorInscricao = valorInscricao;
         this.formato = formato;
         this.regras = regras;
@@ -84,7 +84,7 @@ public class CampeonatoDTO {
         this.nomeJogo = entity.getNomeJogo();
         this.tipo = entity.getTipo();
         this.numeroMaximoParticipantes = entity.getNumeroMaximoParticipantes();
-        this.numeroInscritos = entity.getNumeroInscritos();
+        this.inscritos = entity.getInscritos();
         this.valorInscricao = entity.getValorInscricao();
         this.formato = entity.getFormato();
         this.regras = entity.getRegras();
@@ -98,10 +98,6 @@ public class CampeonatoDTO {
         this.modalidade = entity.getModalidade();
         this.dataCriacao = entity.getDataCriacao();
         this.idPromotor = entity.getIdPromotor();
-    }
-
-    public Integer getNumeroInscritos() {
-        return numeroInscritos;
     }
 
     public LocalDateTime getDataCriacao() {
@@ -176,6 +172,10 @@ public class CampeonatoDTO {
         return idPromotor;
     }
 
+    public List<Inscricao> getInscritos() {
+        return inscritos;
+    }
+
     @Override
     public String toString() {
         return "CampeonatoDTO{" +
@@ -185,7 +185,7 @@ public class CampeonatoDTO {
                 ", nomeJogo='" + nomeJogo + '\'' +
                 ", tipo=" + tipo +
                 ", numeroMaximoParticipantes=" + numeroMaximoParticipantes +
-                ", numeroInscritos =" + numeroInscritos +
+                ", numeroInscritos =" + inscritos +
                 ", valorInscricao=" + valorInscricao +
                 ", formato='" + formato + '\'' +
                 ", regras='" + regras + '\'' +

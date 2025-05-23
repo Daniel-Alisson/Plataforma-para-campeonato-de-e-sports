@@ -6,6 +6,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Document(collection = "campeonatos")
 public class Campeonato {
@@ -16,7 +18,7 @@ public class Campeonato {
     private String nomeJogo;
     private CampeonatoTipo tipo;
     private Integer numeroMaximoParticipantes;
-    private Integer numeroInscritos = 0;
+    private List<Inscricao> inscritos = new ArrayList<>();
     private Double valorInscricao;
     private String formato;
     private String regras;
@@ -34,13 +36,13 @@ public class Campeonato {
     public Campeonato() {
     }
 
-    public Campeonato(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximoParticipantes, Integer numeroInscritos, Double valorInscricao, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String premiacao, CampeonatoStatus status, String modalidade, LocalDateTime dataCriacao, String idPromotor) {
+    public Campeonato(String id, String nomeCampeonato, String nomeJogo, CampeonatoTipo tipo, Integer numeroMaximoParticipantes, List<Inscricao> inscritos, Double valorInscricao, String formato, String regras, LocalDateTime dataInicio, LocalDateTime dataTermino, String localizacao, String capa, String logo, String premiacao, CampeonatoStatus status, String modalidade, LocalDateTime dataCriacao, String idPromotor) {
         this.id = id;
         this.nomeCampeonato = nomeCampeonato;
         this.nomeJogo = nomeJogo;
         this.tipo = tipo;
         this.numeroMaximoParticipantes = numeroMaximoParticipantes;
-        this.numeroInscritos = numeroInscritos;
+        this.inscritos = inscritos;
         this.valorInscricao = valorInscricao;
         this.formato = formato;
         this.regras = regras;
@@ -56,12 +58,12 @@ public class Campeonato {
         this.idPromotor = idPromotor;
     }
 
-    public Integer getNumeroInscritos() {
-        return numeroInscritos;
+    public List<Inscricao> getInscritos() {
+        return inscritos;
     }
 
-    public void setNumeroInscritos(Integer numeroInscritos) {
-        this.numeroInscritos = numeroInscritos;
+    public void setInscritos(List<Inscricao> inscritos) {
+        this.inscritos = inscritos;
     }
 
     public void setValorInscricao(Double valorInscricao) {

@@ -17,8 +17,7 @@ import java.time.LocalDateTime;
 
 @Service
 public class CampeonatoService {
-    // APENAS O ADMIN VAI USAR ESSE SERVICE,
-    // ID PROMOTOR VAI FICAR NULL E ELE PODE FAZER QUALQUER ALTERAÇÃO NOS CAMPEONATOS
+
     @Autowired
     private CampeonatoRepository repository;
 
@@ -54,7 +53,7 @@ public class CampeonatoService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(String id) {
-        if(!repository.existsById(id)) {
+        if (!repository.existsById(id)) {
             throw new ResourceNotFoundException("Campeonato não encontrado");
         }
         try {

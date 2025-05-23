@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 public class InscricaoDTO {
 
     private String id;
-    @NotBlank(message = "Campo requerido")
     private String idCampeonato;
     private String idJogador;
     private String idEquipe;

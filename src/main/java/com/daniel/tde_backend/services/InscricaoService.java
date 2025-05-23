@@ -1,5 +1,6 @@
 package com.daniel.tde_backend.services;
 
+import com.daniel.tde_backend.config.auth.AuthorizationService;
 import com.daniel.tde_backend.dto.CampeonatoDTO;
 import com.daniel.tde_backend.dto.InscricaoDTO;
 import com.daniel.tde_backend.exceptions.ClosedInscricaoException;
@@ -18,14 +19,17 @@ import com.daniel.tde_backend.repositories.EquipeRepository;
 import com.daniel.tde_backend.repositories.InscricaoRepository;
 import com.daniel.tde_backend.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class InscricaoService {
@@ -42,27 +46,28 @@ public class InscricaoService {
     @Autowired
     private EquipeRepository equipeRepository;
 
+    @Autowired
+    private AuthorizationService service;
+
     @Transactional
-    public InscricaoDTO insert(InscricaoDTO dto) {
-        Campeonato campeonato = campeonatoRepository.findById(dto.getIdCampeonato()).orElseThrow(() -> new ResourceNotFoundException("Campeonato não encontrado"));
-        if (campeonato.getNumeroInscritos() >= campeonato.getNumeroMaximoParticipantes()) {
+    public InscricaoDTO insert(String idCampeonato, InscricaoDTO dto) {
+        Campeonato campeonato = campeonatoRepository.findById(idCampeonato).orElseThrow(() -> new ResourceNotFoundException("Campeonato não encontrado"));
+        if (campeonato.getInscritos().size() >= campeonato.getNumeroMaximoParticipantes()) {
             throw new VagasEsgotadasException("Número máximo de vagas atingido [" + campeonato.getNumeroMaximoParticipantes() + "]");
         } if (campeonato.getTipo() == CampeonatoTipo.INDIVIDUAL) {
             if (dto.getIdJogador() == null || dto.getIdEquipe() != null) {
                 throw new InvalidInscricaoException("O campeonato individual requer o ID do jogador e não pode conter o ID da equipe");
             }
-        } if (campeonato.getTipo() == CampeonatoTipo.EQUIPE) {
+        } else if (campeonato.getTipo() == CampeonatoTipo.EQUIPE) {
             if (dto.getIdEquipe() == null || dto.getIdJogador() != null) {
                 throw new InvalidInscricaoException("O campeonato por equipe requer o ID da equipe e não pode conter o ID do jogador");
             }
-        } if (campeonato.getStatus() != CampeonatoStatus.ABERTO) {
-            if (campeonato.getStatus() == CampeonatoStatus.EM_ANDAMENTO) {
-                throw new ClosedInscricaoException("Campeonato está em andamento");
-            } else if(campeonato.getStatus() == CampeonatoStatus.FINALIZADO) {
-                throw new ClosedInscricaoException("Campeonato finalizado");
-            }
         } else {
             throw new InvalidInscricaoException("Tipo de participante inválido");
+        }
+
+        if (campeonato.getStatus() != CampeonatoStatus.ABERTO) {
+            throw new ClosedInscricaoException("Campeonato não permite mais inscrições");
         }
 
         Inscricao entity = new Inscricao();
@@ -74,12 +79,12 @@ public class InscricaoService {
             Equipe equipe = equipeRepository.findById(dto.getIdEquipe()).orElseThrow(() -> new ResourceNotFoundException("Equipe não encontrada"));
             entity.setIdEquipe(dto.getIdEquipe());
         }
-
+        entity.setIdCampeonato(idCampeonato);
         entity.setDataInscricao(LocalDateTime.now());
         entity.setStatus(InscricaoStatus.PENDENTE);
-        campeonato.setNumeroInscritos(campeonato.getNumeroInscritos() + 1);
-        campeonatoRepository.save(campeonato);
         entity = repository.save(entity);
+        campeonato.getInscritos().add(entity);
+        campeonatoRepository.save(campeonato);
         return new InscricaoDTO(entity);
     }
 
@@ -98,32 +103,45 @@ public class InscricaoService {
     @Transactional
     public InscricaoDTO update(String id, InscricaoDTO dto) {
         Inscricao entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Inscrição não encontrada"));
+        Campeonato campeonato = campeonatoRepository.findById(entity.getIdCampeonato()).orElseThrow(() -> new ResourceNotFoundException("Campeonato não encontrado"));
+        /*
         if(dto.getStatus() == InscricaoStatus.REPROVADO) {
             repository.delete(entity);
         }
+        */
+        campeonato.getInscritos().stream().filter(x -> x.getId().equals(id)).findFirst().ifPresent(x -> {
+            x.setStatus(dto.getStatus());
+            x.setDataInscricao(dto.getDataInscricao());
+            x.setIdEquipe(dto.getIdEquipe());
+            x.setIdJogador(dto.getIdJogador());
+        });
+
         copyDtoToEntity(dto, entity);
         entity = repository.save(entity);
+        campeonatoRepository.save(campeonato);
         return new InscricaoDTO(entity);
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(String id) {
-        if (!repository.existsById(id)) {
-            throw new ResourceNotFoundException("Inscrição não encontrada");
+        Inscricao entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Inscrição não encontrada"));
+        Campeonato campeonato = campeonatoRepository.findById(entity.getIdCampeonato()).orElseThrow(() -> new ResourceNotFoundException("Campeonato não encontrado"));
+        campeonato.getInscritos().removeIf(x -> x.getId().equals(id));
+        campeonatoRepository.save(campeonato);
+        repository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CampeonatoDTO> campeonatosInscritos() {
+        String idJogador = service.getIdAuthenticated();
+        List<Inscricao> inscricoes = repository.findByIdJogador(idJogador);
+        if (inscricoes.isEmpty()) {
+            System.out.println("Jogador não possui inscrições.");
         }
-        if (!campeonatoRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Campeonato não encontrado");
-        }
-        try {
-            Campeonato campeonato = new Campeonato();
-            if (campeonato.getNumeroInscritos() > 0) {
-                campeonato.setNumeroInscritos(campeonato.getNumeroInscritos() - 1);
-                campeonatoRepository.save(campeonato);
-            }
-            repository.deleteById(id);
-        } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException("Falha de integridade referencial");
-        }
+
+        List<String> idCampeonatos = inscricoes.stream().map(Inscricao::getIdCampeonato).toList();
+        List<Campeonato> campeonatos = campeonatoRepository.findAllById(idCampeonatos);
+        return campeonatos.stream().map(CampeonatoDTO::new).toList();
     }
 
     private void copyDtoToEntity(InscricaoDTO dto, Inscricao entity) {

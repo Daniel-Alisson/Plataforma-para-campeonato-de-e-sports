@@ -1,7 +1,12 @@
 package com.daniel.tde_backend.controllers;
 
+import com.daniel.tde_backend.config.auth.AuthorizationService;
 import com.daniel.tde_backend.dto.CampeonatoDTO;
 import com.daniel.tde_backend.dto.InscricaoDTO;
+import com.daniel.tde_backend.exceptions.ResourceNotFoundException;
+import com.daniel.tde_backend.models.Inscricao;
+import com.daniel.tde_backend.models.Usuario;
+import com.daniel.tde_backend.repositories.UsuarioRepository;
 import com.daniel.tde_backend.services.CampeonatoService;
 import com.daniel.tde_backend.services.InscricaoService;
 import jakarta.validation.Valid;
@@ -9,22 +14,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/inscricao")
 public class InscricaoController {
-
-    // USAR PARA TESTES
-    // ID CAMPEONATO EQUIPE - 681d00e9d989dd144a717ee0
-    // ID CAMPEONATO INDIVIDUAL - 6819107041f357547c1b04c8
-    // ID JOGADOR - 6802f99f03892277089ce38a
-    // ID EQUIPE - 681bf0847078a250888c074a
 
     @Autowired
     private InscricaoService service;
@@ -32,14 +33,14 @@ public class InscricaoController {
     @Autowired
     private CampeonatoService campeonatoService;
 
-    @PostMapping("/{id}")
-    public ResponseEntity<?> inscreverCampeonato(@PathVariable String id, @Valid @RequestBody InscricaoDTO dto) {
+    @PostMapping("/{idCampeonato}")
+    public ResponseEntity<?> inscreverCampeonato(@PathVariable String idCampeonato, @Valid @RequestBody InscricaoDTO dto) {
         Map<String, Object> response = new HashMap<>();
-        dto = service.insert(dto);
-        CampeonatoDTO campeonatoDTO = campeonatoService.findById(id);
+        dto = service.insert(idCampeonato, dto);
+        CampeonatoDTO campeonatoDTO = campeonatoService.findById(idCampeonato);
 
         response.put("Comprovante: ", dto.getStatus());
-        response.put("Número de inscritos: ", campeonatoDTO.getNumeroInscritos());
+        response.put("Número de inscritos: ", campeonatoDTO.getInscritos().size());
         response.put("Número de vagas: ", campeonatoDTO.getNumeroMaximoParticipantes());
         response.put("Detalhes do campeonato: ", campeonatoDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{/id}").buildAndExpand(dto.getId()).toUri();
@@ -69,5 +70,10 @@ public class InscricaoController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
-}
 
+    @GetMapping("/lista")
+    public ResponseEntity<List<CampeonatoDTO>> listarCampeonatosInscritos() {
+        List<CampeonatoDTO> lista = service.campeonatosInscritos();
+        return ResponseEntity.ok(lista);
+    }
+}
