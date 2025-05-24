@@ -32,6 +32,7 @@ public class Campeonato {
     private String modalidade;
     private LocalDateTime dataCriacao;
     private String idPromotor;
+    private List<String> partidas = new ArrayList<>();
 
     public Campeonato() {
     }
@@ -56,6 +57,14 @@ public class Campeonato {
         this.modalidade = modalidade;
         this.dataCriacao = dataCriacao;
         this.idPromotor = idPromotor;
+    }
+
+    public List<String> getPartidas() {
+        return partidas;
+    }
+
+    public void setPartidas(List<String> partidas) {
+        this.partidas = partidas;
     }
 
     public List<Inscricao> getInscritos() {

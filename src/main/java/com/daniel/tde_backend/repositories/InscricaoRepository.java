@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface InscricaoRepository extends MongoRepository<Inscricao, String> {
     List<Inscricao> findByIdJogador(String idJogador);
+    List<Inscricao> findByIdCampeonato(String idCampeonato);
 }

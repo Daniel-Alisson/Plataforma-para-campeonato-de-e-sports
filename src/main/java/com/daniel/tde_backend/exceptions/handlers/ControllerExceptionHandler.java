@@ -89,4 +89,11 @@ public class ControllerExceptionHandler {
         CustomError err = new CustomError(e.getMessage(), Instant.now(), request.getRequestURI(), status.value());
         return ResponseEntity.status(status).body(err);
     }
+
+    @ExceptionHandler(InsufficientPlayersException.class)
+    public ResponseEntity<CustomError> jogadoresInsuficientes(InsufficientPlayersException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomError err = new CustomError(e.getMessage(), Instant.now(), request.getRequestURI(), status.value());
+        return ResponseEntity.status(status).body(err);
+    }
 }
