@@ -81,4 +81,35 @@ public class PartidaService {
         List<Partida> partidas = repository.findByParticipantesContains(idJogador);
         return partidas.stream().map(PartidaDTO::new).toList();
     }
+
+    @Transactional(readOnly = true)
+    public List<PartidaDTO> listarPartidasCampeonato(String idCampeonato) {
+        List<Partida> partidas = repository.findByIdCampeonato(idCampeonato);
+        return partidas.stream().map(PartidaDTO::new).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public PartidaDTO buscarPartidasById(String id) {
+        Partida partida = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Partida não encontrada"));
+        return new PartidaDTO(partida);
+    }
+
+    @Transactional
+    public PartidaDTO definirVencedor(String id, PartidaDTO dto) {
+        Partida partida = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Partida não encontrada"));
+        // ADICIONAR VALIDAÇÃO PARA VERIFICAR SE O VENCEDOR ESTÁ NA PARTIDA
+        partida.setVencedor(dto.getVencedor());
+        partida.setStatus(PartidaStatus.FINALIZADA);
+        repository.save(partida);
+        return new PartidaDTO(partida);
+    }
+
+    @Transactional
+    public void cancelarPartida(String id) {
+        Partida partida = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Partida não encontrada"));
+        repository.delete(partida);
+    }
+
+
+
 }

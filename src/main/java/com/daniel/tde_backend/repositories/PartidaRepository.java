@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface PartidaRepository extends MongoRepository<Partida, String> {
     List<Partida> findByParticipantesContains(String idParticipante);
+    List<Partida> findByIdCampeonato(String idCampeonato);
 }
