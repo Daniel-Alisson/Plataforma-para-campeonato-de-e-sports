@@ -60,9 +60,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/inscricao").hasAnyRole("PROMOTOR", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/inscricao/{id}").hasAnyRole("PROMOTOR", "ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/inscricao/{id}").hasAnyRole("JOGADOR", "PROMOTOR", "ADMIN")
-                        // ADICIONAR O RESTO DPS
-                        // TEM Q TER APENAS UMA EQUIPE POR USUARIO, ADICIONAR A LOGICA DPS
-                        // REIVISAR DELETE DE INSCRICAO DPS
+
+                        .requestMatchers(HttpMethod.GET, "/ranking").permitAll()
                         .requestMatchers(HttpMethod.POST, "/promocao").hasAnyRole("JOGADOR", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/status/{idJogador}").hasRole("ADMIN")
                         .anyRequest().authenticated())
